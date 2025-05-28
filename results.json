@@ -1,0 +1,1559 @@
+[
+  {
+    "resultId": "a3564e5e-000f-4666-a6f6-0ac65dc7cfb8",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "5af34543-2108-4aa7-b186-313a9ce6a84c",
+    "controlId": "SR 11-7-204",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.302Z",
+    "completedAt": "2025-05-28T03:49:46.931Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "856124d8-3d31-43b7-973c-afb9cd79fa06",
+          "location": {
+            "scope": "NOTEBOOK_LEVEL",
+            "cellIDs": [
+              "d3522972-7fb9-46e4-a299-33866c7fd618",
+              "d6aeeded-ce72-49d4-9611-e5060f384462"
+            ],
+            "notebookPath": "/ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "Markdown cells such as Introduction (cell 'd3522972-7fb9-46e4-a299-33866c7fd618') and Conclusion (cell 'd6aeeded-ce72-49d4-9611-e5060f384462') describe the model and its performance but do not adequately cover specific model risks, assumptions, or limitations."
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Documentation Gaps",
+          "flagTitle": "Insufficient Documentation on Model Risks, Assumptions, and Limitations",
+          "explanation": "While the notebook provides an introduction, conclusion, and documents many procedural steps, it lacks a dedicated and explicit discussion of potential model risks (e.g., fairness considerations, bias towards certain groups, robustness to concept drift, adversarial attacks, impact of misclassifications in a fraud context), key model assumptions (e.g., about data distributions, feature relationships, stationarity), and specific limitations (e.g., scenarios where the model might underperform or data conditions under which its predictions are less reliable). Comprehensive documentation of these aspects is crucial for overall model risk management.",
+          "remediation": [
+            {
+              "name": "Add Model Risk, Assumptions, and Limitations Section",
+              "details": "The documentation should cover: potential data biases (e.g., demographic, transactional period), how concept drift might affect performance over time, the model's sensitivity to specific input features, the business impact and ethical considerations of false positives/negatives in fraud detection, and any assumptions made about data quality or feature independence.",
+              "description": "Add a dedicated markdown section or expand existing ones (e.g., Introduction, Conclusion, or a new 'Model Risk Assessment' section) to explicitly document identified model risks, underlying assumptions made during development, and known limitations of the model."
+            },
+            {
+              "name": "Document Risk-Related Decisions",
+              "details": "For instance, if certain features were excluded due to potential bias or instability, or if specific preprocessing steps were chosen to handle noisy data, this rationale should be documented.",
+              "description": "Document key decisions made during the modeling process, especially those pertaining to risk mitigation strategies considered or implemented."
+            }
+          ],
+          "violatedControl": "SR 11-7-204 - Documenting All Model Risk Management Activities",
+          "severityRationale": "Lack of explicit documentation on model risks, assumptions, and limitations can lead to misuse of the model, misinterpretation of its results, and an inability to proactively manage potential negative outcomes or to understand its applicability domain. This is central to SR 11-7-204."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["d3522972-7fb9-46e4-a299-33866c7fd618"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "### Introduction\n\nDetecting fraudulent online transactions is a critical challenge in digital commerce. This document outlines a machine learning pipeline utilizing XGBoost to predict fraud probability on the IEEE-CIS Fraud Detection dataset."
+          },
+          "explanation": "This introductory documentation provides context for the model development process, outlining its objective and high-level methodology. This is a foundational part of documenting model risk management activities by establishing the model's scope and purpose, even if other flags point to missing details on specific risks.",
+          "evidenceTitle": "Project Purpose and Approach Documented",
+          "evidenceStatement": "The notebook begins with a markdown cell detailing the problem (fraud detection), the dataset used (IEEE-CIS), the chosen model (XGBoost), and the key steps in the pipeline, which is a form of documenting the model's design and intended use.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "class FraudDetectionPipeline:\n    def __init__(self, use_gpu=True):\n        # ...\n    def load_data(self, ...):\n        # ...\n    def frequency_encode(self, ...):\n        # ...\n    def prepare_features(self):\n        # ...\n    def train_model(self, ...):\n        # ..."
+          },
+          "explanation": "The structured code within the pipeline class, with distinct methods for different stages, serves as intrinsic documentation of the model's construction, data transformations, and training procedures. Each method's implementation details these activities, contributing to the overall documentation of model risk management.",
+          "evidenceTitle": "Modular Pipeline Class Documents Model Development Steps",
+          "evidenceStatement": "The `FraudDetectionPipeline` class definition clearly outlines and modularizes key model development activities including data loading, various feature engineering techniques, feature preparation logic, and model training using XGBoost with GroupKFold. This constitutes documentation of the model's development process.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["3e7544cb-3aaf-4e32-9ccc-ebf3216935f0"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "# --- Define Data Types for Memory Optimization ---\ndtypes = {\n    'TransactionID': 'int32',\n    'isFraud': 'int8', # Target variable\n    # ... many more dtypes ...\n}\nprint(f\"Data types defined for {len(dtypes)} columns.\")"
+          },
+          "explanation": "Explicitly defining data types and noting memory optimization is a part of documenting the technical aspects of model development, including considerations for efficient data handling, which is relevant for managing model operational risks.",
+          "evidenceTitle": "Data Type Specification for Memory Management",
+          "evidenceStatement": "The notebook defines a dictionary `dtypes` specifying explicit data types for numerous columns to optimize memory usage during data loading and processing. This documents a specific data handling decision made during model development.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "f53cfe7e-1cef-4a1a-b753-f061348460b4",
+              "526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "pipeline.plot_feature_importance(top_n=50) # from cell f53cfe7e-1cef-4a1a-b753-f061348460b4\n# --- Top 50 Feature Importances (Method 1) --- output from 526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+          },
+          "explanation": "Generating and documenting feature importances is a critical model risk management activity as it helps in understanding model behavior and identifying key drivers. The plot and printed list provide this documentation, contributing to model interpretability.",
+          "evidenceTitle": "Feature Importance Analysis and Visualization Documented",
+          "evidenceStatement": "The pipeline includes a method `plot_feature_importance` and a subsequent cell explicitly calls this method to visualize top feature importances. Cell '526f66f6-ee9f-44f1-b703-d3cbc41d4d85' also prints these importances. This documents a key model analysis activity.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "a8405206-533e-46d9-8b80-661b944c9c6b",
+              "d6aeeded-ce72-49d4-9611-e5060f384462"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "# Output from cell a8405206-533e-46d9-8b80-661b944c9c6b:\n\"--- Cross-validation ROC AUC: 0.9429 ---\"\n# From cell d6aeeded-ce72-49d4-9611-e5060f384462:\n\"achieving a cross-validation ROC AUC score of **0.9429**.\""
+          },
+          "explanation": "The detailed output from the training cell and summary in the conclusion document the training procedure and its outcome (CV AUC). This is essential for tracking model performance (SR 11-7-204) and represents an initial step in model validation (SR 11-7-184).",
+          "evidenceTitle": "Model Training Procedure and Cross-Validation Performance Documented",
+          "evidenceStatement": "The notebook documents the model training process, including parameters, use of GroupKFold, early stopping, and outputs fold-level AUC scores. The final cross-validation ROC AUC (0.9429) is printed and mentioned in the conclusion, documenting initial model performance.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-184 - Verifying Timely Model Validation"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+              "441ee669-fa60-4384-8d7d-328088063cbc"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "TRANSACTION_TRAIN_PATH = f'{KAGGLE_CACHE_PATH}train_transaction.csv'\n# From cell 441ee669-fa60-4384-8d7d-328088063cbc:\nieee_fraud_detection_path = kagglehub.competition_download('ieee-fraud-detection')"
+          },
+          "explanation": "Clearly documenting data sources and access methods aids reproducibility (SR 11-7-204) and is a first step in managing vendor inputs by identifying them (SR 11-7-145).",
+          "evidenceTitle": "Explicit Data Sourcing and Path Configuration Documented",
+          "evidenceStatement": "The notebook explicitly defines file paths for datasets (e.g., `TRANSACTION_TRAIN_PATH`) and shows data sourced from 'ieee-fraud-detection' via `kagglehub`. This documents data provenance.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["352478a3-6f00-4c86-b2f5-9d3b56f48086"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "import xgboost\nprint(xgboost.__version__)\n# Output: 2.1.4"
+          },
+          "explanation": "Documenting library versions is important for model risk management as it helps in tracking dependencies, ensuring reproducibility, and investigating version-specific issues.",
+          "evidenceTitle": "Key Model Library Version Documented",
+          "evidenceStatement": "The notebook explicitly prints the version of the XGBoost library used (2.1.4), documenting a key component of the modeling environment.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+              "238b64c6-e436-4a95-8099-68d7fdba0307"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "# Cell 3e7544cb-3aaf-4e32-9ccc-ebf3216935f0:\nUSE_GPU = True\n# Cell 238b64c6-e436-4a95-8099-68d7fdba0307 (__init__):\nif self.use_gpu:\n    # ...\n    self.xgb_params['device'] = 'cuda'"
+          },
+          "explanation": "Documenting hardware configurations like GPU usage is relevant for reproducibility and understanding the computational aspects of model development, which is part of overall model activity documentation.",
+          "evidenceTitle": "GPU Usage Configuration Documented",
+          "evidenceStatement": "The notebook documents GPU usage configuration via the `USE_GPU` variable and logic in `FraudDetectionPipeline` to set XGBoost parameters for 'cuda' if available, with a CPU fallback.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "## Conclusion\n\nThis notebook successfully implemented a comprehensive pipeline for the IEEE-CIS Fraud Detection challenge. Key steps included:\n* Data Ingestion and Preprocessing...\n* Extensive Feature Engineering...\n* Robust Model Training... achieving a cross-validation ROC AUC score of **0.9429**.\n* Insightful Feature Analysis..."
+          },
+          "explanation": "The conclusion section provides a summary of the model development process and its results, which is a key part of documenting model risk management activities by providing an overview of the model's performance and characteristics. This is distinct from Flag 2 as it focuses on documenting what was done and achieved, rather than specifically detailing risks/assumptions/limitations.",
+          "evidenceTitle": "Notebook Conclusion Summarizes Key Findings and Performance",
+          "evidenceStatement": "The Conclusion markdown cell summarizes the pipeline's key steps, the achieved cross-validation ROC AUC score, and identifies influential features, documenting the overall outcome and key insights from the modeling activity.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-204",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Documenting All Model Risk Management Activities"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["d3522972-7fb9-46e4-a299-33866c7fd618"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "### Introduction\n\nDetecting fraudulent online transactions is a critical challenge in digital commerce. This document outlines a machine learning pipeline utilizing XGBoost to predict fraud probability on the IEEE-CIS Fraud Detection dataset."
+        },
+        "explanation": "This introductory documentation provides context for the model development process, outlining its objective and high-level methodology. This is a foundational part of documenting model risk management activities by establishing the model's scope and purpose, even if other flags point to missing details on specific risks.",
+        "evidenceTitle": "Project Purpose and Approach Documented",
+        "evidenceStatement": "The notebook begins with a markdown cell detailing the problem (fraud detection), the dataset used (IEEE-CIS), the chosen model (XGBoost), and the key steps in the pipeline, which is a form of documenting the model's design and intended use.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "class FraudDetectionPipeline:\n    def __init__(self, use_gpu=True):\n        # ...\n    def load_data(self, ...):\n        # ...\n    def frequency_encode(self, ...):\n        # ...\n    def prepare_features(self):\n        # ...\n    def train_model(self, ...):\n        # ..."
+        },
+        "explanation": "The structured code within the pipeline class, with distinct methods for different stages, serves as intrinsic documentation of the model's construction, data transformations, and training procedures. Each method's implementation details these activities, contributing to the overall documentation of model risk management.",
+        "evidenceTitle": "Modular Pipeline Class Documents Model Development Steps",
+        "evidenceStatement": "The `FraudDetectionPipeline` class definition clearly outlines and modularizes key model development activities including data loading, various feature engineering techniques, feature preparation logic, and model training using XGBoost with GroupKFold. This constitutes documentation of the model's development process.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["3e7544cb-3aaf-4e32-9ccc-ebf3216935f0"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "# --- Define Data Types for Memory Optimization ---\ndtypes = {\n    'TransactionID': 'int32',\n    'isFraud': 'int8', # Target variable\n    # ... many more dtypes ...\n}\nprint(f\"Data types defined for {len(dtypes)} columns.\")"
+        },
+        "explanation": "Explicitly defining data types and noting memory optimization is a part of documenting the technical aspects of model development, including considerations for efficient data handling, which is relevant for managing model operational risks.",
+        "evidenceTitle": "Data Type Specification for Memory Management",
+        "evidenceStatement": "The notebook defines a dictionary `dtypes` specifying explicit data types for numerous columns to optimize memory usage during data loading and processing. This documents a specific data handling decision made during model development.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "f53cfe7e-1cef-4a1a-b753-f061348460b4",
+            "526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "pipeline.plot_feature_importance(top_n=50) # from cell f53cfe7e-1cef-4a1a-b753-f061348460b4\n# --- Top 50 Feature Importances (Method 1) --- output from 526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+        },
+        "explanation": "Generating and documenting feature importances is a critical model risk management activity as it helps in understanding model behavior and identifying key drivers. The plot and printed list provide this documentation, contributing to model interpretability.",
+        "evidenceTitle": "Feature Importance Analysis and Visualization Documented",
+        "evidenceStatement": "The pipeline includes a method `plot_feature_importance` and a subsequent cell explicitly calls this method to visualize top feature importances. Cell '526f66f6-ee9f-44f1-b703-d3cbc41d4d85' also prints these importances. This documents a key model analysis activity.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "a8405206-533e-46d9-8b80-661b944c9c6b",
+            "d6aeeded-ce72-49d4-9611-e5060f384462"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "# Output from cell a8405206-533e-46d9-8b80-661b944c9c6b:\n\"--- Cross-validation ROC AUC: 0.9429 ---\"\n# From cell d6aeeded-ce72-49d4-9611-e5060f384462:\n\"achieving a cross-validation ROC AUC score of **0.9429**.\""
+        },
+        "explanation": "The detailed output from the training cell and summary in the conclusion document the training procedure and its outcome (CV AUC). This is essential for tracking model performance (SR 11-7-204) and represents an initial step in model validation (SR 11-7-184).",
+        "evidenceTitle": "Model Training Procedure and Cross-Validation Performance Documented",
+        "evidenceStatement": "The notebook documents the model training process, including parameters, use of GroupKFold, early stopping, and outputs fold-level AUC scores. The final cross-validation ROC AUC (0.9429) is printed and mentioned in the conclusion, documenting initial model performance.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-184 - Verifying Timely Model Validation"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+            "441ee669-fa60-4384-8d7d-328088063cbc"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "TRANSACTION_TRAIN_PATH = f'{KAGGLE_CACHE_PATH}train_transaction.csv'\n# From cell 441ee669-fa60-4384-8d7d-328088063cbc:\nieee_fraud_detection_path = kagglehub.competition_download('ieee-fraud-detection')"
+        },
+        "explanation": "Clearly documenting data sources and access methods aids reproducibility (SR 11-7-204) and is a first step in managing vendor inputs by identifying them (SR 11-7-145).",
+        "evidenceTitle": "Explicit Data Sourcing and Path Configuration Documented",
+        "evidenceStatement": "The notebook explicitly defines file paths for datasets (e.g., `TRANSACTION_TRAIN_PATH`) and shows data sourced from 'ieee-fraud-detection' via `kagglehub`. This documents data provenance.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["352478a3-6f00-4c86-b2f5-9d3b56f48086"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "import xgboost\nprint(xgboost.__version__)\n# Output: 2.1.4"
+        },
+        "explanation": "Documenting library versions is important for model risk management as it helps in tracking dependencies, ensuring reproducibility, and investigating version-specific issues.",
+        "evidenceTitle": "Key Model Library Version Documented",
+        "evidenceStatement": "The notebook explicitly prints the version of the XGBoost library used (2.1.4), documenting a key component of the modeling environment.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+            "238b64c6-e436-4a95-8099-68d7fdba0307"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "# Cell 3e7544cb-3aaf-4e32-9ccc-ebf3216935f0:\nUSE_GPU = True\n# Cell 238b64c6-e436-4a95-8099-68d7fdba0307 (__init__):\nif self.use_gpu:\n    # ...\n    self.xgb_params['device'] = 'cuda'"
+        },
+        "explanation": "Documenting hardware configurations like GPU usage is relevant for reproducibility and understanding the computational aspects of model development, which is part of overall model activity documentation.",
+        "evidenceTitle": "GPU Usage Configuration Documented",
+        "evidenceStatement": "The notebook documents GPU usage configuration via the `USE_GPU` variable and logic in `FraudDetectionPipeline` to set XGBoost parameters for 'cuda' if available, with a CPU fallback.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "## Conclusion\n\nThis notebook successfully implemented a comprehensive pipeline for the IEEE-CIS Fraud Detection challenge. Key steps included:\n* Data Ingestion and Preprocessing...\n* Extensive Feature Engineering...\n* Robust Model Training... achieving a cross-validation ROC AUC score of **0.9429**.\n* Insightful Feature Analysis..."
+        },
+        "explanation": "The conclusion section provides a summary of the model development process and its results, which is a key part of documenting model risk management activities by providing an overview of the model's performance and characteristics. This is distinct from Flag 2 as it focuses on documenting what was done and achieved, rather than specifically detailing risks/assumptions/limitations.",
+        "evidenceTitle": "Notebook Conclusion Summarizes Key Findings and Performance",
+        "evidenceStatement": "The Conclusion markdown cell summarizes the pipeline's key steps, the achieved cross-validation ROC AUC score, and identifies influential features, documenting the overall outcome and key insights from the modeling activity.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "1b10d2a7-3dee-40f5-adbc-36513515ab42",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "5af34543-2108-4aa7-b186-313a9ce6a84c",
+    "controlId": "SR 11-7-184",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.306Z",
+    "completedAt": "2025-05-28T03:49:46.972Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "6f979937-3153-4940-9b00-262da21a5bcd",
+          "location": {
+            "scope": "NOTEBOOK_LEVEL",
+            "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+            "notebookPath": "/ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "The Conclusion cell 'd6aeeded-ce72-49d4-9611-e5060f384462' summarizes the initial CV AUC score but does not discuss plans for future or ongoing validation activities."
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Model Lifecycle Management",
+          "flagTitle": "Absence of Documented Plan for Ongoing Model Validation and Monitoring",
+          "explanation": "The notebook demonstrates initial model validation using `GroupKFold` based on monthly data (`DT_M`). However, the control 'Verifying Timely Model Validation' implies an ongoing process to ensure the model remains accurate and relevant over time. The notebook does not contain any documentation outlining a plan, schedule, performance thresholds, or specific triggers for periodic re-validation, ongoing monitoring of model performance in a simulated or actual production environment, or criteria for model retraining or retirement. This is a gap in demonstrating a process for 'timely' (i.e., continuous or periodic) validation.",
+          "remediation": [
+            {
+              "name": "Document Monitoring and Re-validation Plan",
+              "details": "This plan should specify: key performance indicators (KPIs) to track (e.g., AUC, precision-recall on new data), thresholds that would trigger alerts or a full re-validation, the proposed frequency of re-validation activities, conditions under which the model should be retrained (e.g., significant data drift, performance degradation), and criteria for model decommissioning.",
+              "description": "Add a markdown section outlining the strategy for ongoing model monitoring and periodic re-validation."
+            },
+            {
+              "name": "Specify Future Validation Data and Processes",
+              "details": "For example, specify if new, unseen production data would be collected and used for periodic back-testing or A/B testing, and how data drift will be detected and managed.",
+              "description": "Describe the data sources and processes that would be used for future 'timely' validations."
+            }
+          ],
+          "violatedControl": "SR 11-7-184 - Verifying Timely Model Validation",
+          "severityRationale": "Without a documented plan for ongoing validation and monitoring, a model's performance can degrade over time unnoticed, leading to inaccurate predictions and increased business or operational risk. SR 11-7-184 emphasizes the 'timely' aspect of validation, which extends beyond the initial development phase."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "a8405206-533e-46d9-8b80-661b944c9c6b",
+              "d6aeeded-ce72-49d4-9611-e5060f384462"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "# Output from cell a8405206-533e-46d9-8b80-661b944c9c6b:\n\"--- Cross-validation ROC AUC: 0.9429 ---\"\n# From cell d6aeeded-ce72-49d4-9611-e5060f384462:\n\"achieving a cross-validation ROC AUC score of **0.9429**.\""
+          },
+          "explanation": "The detailed output from the training cell and summary in the conclusion document the training procedure and its outcome (CV AUC). This is essential for tracking model performance (SR 11-7-204) and represents an initial step in model validation (SR 11-7-184).",
+          "evidenceTitle": "Model Training Procedure and Cross-Validation Performance Documented",
+          "evidenceStatement": "The notebook documents the model training process, including parameters, use of GroupKFold, early stopping, and outputs fold-level AUC scores. The final cross-validation ROC AUC (0.9429) is printed and mentioned in the conclusion, documenting initial model performance.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-184 - Verifying Timely Model Validation"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-184",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Verifying Timely Model Validation"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "a8405206-533e-46d9-8b80-661b944c9c6b",
+            "d6aeeded-ce72-49d4-9611-e5060f384462"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "# Output from cell a8405206-533e-46d9-8b80-661b944c9c6b:\n\"--- Cross-validation ROC AUC: 0.9429 ---\"\n# From cell d6aeeded-ce72-49d4-9611-e5060f384462:\n\"achieving a cross-validation ROC AUC score of **0.9429**.\""
+        },
+        "explanation": "The detailed output from the training cell and summary in the conclusion document the training procedure and its outcome (CV AUC). This is essential for tracking model performance (SR 11-7-204) and represents an initial step in model validation (SR 11-7-184).",
+        "evidenceTitle": "Model Training Procedure and Cross-Validation Performance Documented",
+        "evidenceStatement": "The notebook documents the model training process, including parameters, use of GroupKFold, early stopping, and outputs fold-level AUC scores. The final cross-validation ROC AUC (0.9429) is printed and mentioned in the conclusion, documenting initial model performance.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-184 - Verifying Timely Model Validation"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "3280386c-0dbd-4c49-8ed1-0a44281c7c1c",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "5af34543-2108-4aa7-b186-313a9ce6a84c",
+    "controlId": "SR 11-7-145",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.308Z",
+    "completedAt": "2025-05-28T03:49:46.975Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "cd6e2e73-ad28-4537-9aa5-59121d88491e",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "441ee669-fa60-4384-8d7d-328088063cbc",
+              "d3522972-7fb9-46e4-a299-33866c7fd618"
+            ],
+            "notebookPath": "/ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "Cell '441ee669-fa60-4384-8d7d-328088063cbc': ieee_fraud_detection_path = kagglehub.competition_download('ieee-fraud-detection')\nIntroduction cell 'd3522972-7fb9-46e4-a299-33866c7fd618' mentions the dataset but lacks detailed investigation notes."
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Data Governance",
+          "flagTitle": "Lack of Explicit Investigation and Documentation for Vendor Inputs (Kaggle Dataset)",
+          "explanation": "The model utilizes the IEEE-CIS Fraud Detection dataset sourced from Kaggle via `kagglehub`. While the notebook performs data preprocessing and feature engineering, there is no explicit documentation detailing a systematic investigation into this 'vendor input'. This includes a thorough assessment of the dataset's quality (beyond handling missing values procedurally), potential inherent biases, data collection methodology, known limitations, or its overall suitability and relevance for a production fraud detection system outside the context of a competition. Documenting such an investigation is key to understanding risks associated with third-party data.",
+          "remediation": [
+            {
+              "name": "Document Dataset Investigation and Relevance",
+              "details": "This section should document: the data source (IEEE-CIS via Kaggle), details about the data provider if available, any known information about data collection methods, a summary of data quality assessment (e.g., patterns of missingness beyond procedural handling, potential errors or outliers, known collection biases), an analysis of its relevance and limitations for the specific fraud detection use case, and any steps taken to mitigate risks associated with its use.",
+              "description": "Add a markdown section dedicated to the investigation of the IEEE-CIS dataset."
+            },
+            {
+              "name": "Assess Impact of Dataset Characteristics",
+              "details": "Consider if the competition nature of the dataset aligns with real-world fraud scenarios and document any discrepancies or assumptions made.",
+              "description": "Discuss how the characteristics of this dataset (e.g., its timeframe, scope, potential biases) might influence the model's performance, fairness, and generalizability to other contexts."
+            }
+          ],
+          "violatedControl": "SR 11-7-145 - Investigating Relevance of Vendor Inputs",
+          "severityRationale": "Using external datasets (vendor inputs) without a thorough, documented investigation of their quality, relevance, and potential biases can introduce unknown risks into the model, impacting its reliability, fairness, and appropriateness for the intended business application (SR 11-7-145)."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+              "441ee669-fa60-4384-8d7d-328088063cbc"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "TRANSACTION_TRAIN_PATH = f'{KAGGLE_CACHE_PATH}train_transaction.csv'\n# From cell 441ee669-fa60-4384-8d7d-328088063cbc:\nieee_fraud_detection_path = kagglehub.competition_download('ieee-fraud-detection')"
+          },
+          "explanation": "Clearly documenting data sources and access methods aids reproducibility (SR 11-7-204) and is a first step in managing vendor inputs by identifying them (SR 11-7-145).",
+          "evidenceTitle": "Explicit Data Sourcing and Path Configuration Documented",
+          "evidenceStatement": "The notebook explicitly defines file paths for datasets (e.g., `TRANSACTION_TRAIN_PATH`) and shows data sourced from 'ieee-fraud-detection' via `kagglehub`. This documents data provenance.",
+          "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "for raw_col_name in df_test_id_raw.columns:\n    if 'id-' in raw_col_name:\n        potential_train_name = raw_col_name.replace('id-', 'id_')\n        if potential_train_name in expected_id_cols_from_dtypes:\n            rename_map_test_id[raw_col_name] = potential_train_name\nif rename_map_test_id:\n    df_test_id_raw.rename(columns=rename_map_test_id, inplace=True)"
+          },
+          "explanation": "This column renaming process indicates an effort to understand and standardize the structure of the vendor-provided identity data, which is a preliminary part of investigating its usability and relevance.",
+          "evidenceTitle": "Harmonization of Column Names in Vendor Identity Data",
+          "evidenceStatement": "The `load_data` method includes logic to rename columns in the test identity dataset (e.g., 'id-' to 'id_') to align with training data conventions, showing initial processing of vendor input.",
+          "supportedControlID": "SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+              "238b64c6-e436-4a95-8099-68d7fdba0307"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "# Cell 3e7544cb-3aaf-4e32-9ccc-ebf3216935f0 defines 'dtypes'\ndf_train_trans = pd.read_csv(transaction_train_path, dtype=dtypes_map, ...)\n# in load_data method, cell 238b64c6-e436-4a95-8099-68d7fdba0307"
+          },
+          "explanation": "Defining and applying data types for vendor inputs shows a level of data assessment and preparation, which is a component of understanding and investigating the input's characteristics for model use.",
+          "evidenceTitle": "Explicit Data Type Definition and Application for Vendor Input",
+          "evidenceStatement": "The notebook defines specific data types for numerous columns from the vendor dataset (IEEE-CIS) and applies these types during data loading, indicating an understanding of the data's nature.",
+          "supportedControlID": "SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-145",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Investigating Relevance of Vendor Inputs"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+            "441ee669-fa60-4384-8d7d-328088063cbc"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "TRANSACTION_TRAIN_PATH = f'{KAGGLE_CACHE_PATH}train_transaction.csv'\n# From cell 441ee669-fa60-4384-8d7d-328088063cbc:\nieee_fraud_detection_path = kagglehub.competition_download('ieee-fraud-detection')"
+        },
+        "explanation": "Clearly documenting data sources and access methods aids reproducibility (SR 11-7-204) and is a first step in managing vendor inputs by identifying them (SR 11-7-145).",
+        "evidenceTitle": "Explicit Data Sourcing and Path Configuration Documented",
+        "evidenceStatement": "The notebook explicitly defines file paths for datasets (e.g., `TRANSACTION_TRAIN_PATH`) and shows data sourced from 'ieee-fraud-detection' via `kagglehub`. This documents data provenance.",
+        "supportedControlID": "SR 11-7-204 - Documenting All Model Risk Management Activities, SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "for raw_col_name in df_test_id_raw.columns:\n    if 'id-' in raw_col_name:\n        potential_train_name = raw_col_name.replace('id-', 'id_')\n        if potential_train_name in expected_id_cols_from_dtypes:\n            rename_map_test_id[raw_col_name] = potential_train_name\nif rename_map_test_id:\n    df_test_id_raw.rename(columns=rename_map_test_id, inplace=True)"
+        },
+        "explanation": "This column renaming process indicates an effort to understand and standardize the structure of the vendor-provided identity data, which is a preliminary part of investigating its usability and relevance.",
+        "evidenceTitle": "Harmonization of Column Names in Vendor Identity Data",
+        "evidenceStatement": "The `load_data` method includes logic to rename columns in the test identity dataset (e.g., 'id-' to 'id_') to align with training data conventions, showing initial processing of vendor input.",
+        "supportedControlID": "SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+            "238b64c6-e436-4a95-8099-68d7fdba0307"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "# Cell 3e7544cb-3aaf-4e32-9ccc-ebf3216935f0 defines 'dtypes'\ndf_train_trans = pd.read_csv(transaction_train_path, dtype=dtypes_map, ...)\n# in load_data method, cell 238b64c6-e436-4a95-8099-68d7fdba0307"
+        },
+        "explanation": "Defining and applying data types for vendor inputs shows a level of data assessment and preparation, which is a component of understanding and investigating the input's characteristics for model use.",
+        "evidenceTitle": "Explicit Data Type Definition and Application for Vendor Input",
+        "evidenceStatement": "The notebook defines specific data types for numerous columns from the vendor dataset (IEEE-CIS) and applies these types during data loading, indicating an understanding of the data's nature.",
+        "supportedControlID": "SR 11-7-145 - Investigating Relevance of Vendor Inputs"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "bf1b2374-96f4-47c6-935a-d6b374289ba6",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "5af34543-2108-4aa7-b186-313a9ce6a84c",
+    "controlId": "SR 11-7-122",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.309Z",
+    "completedAt": "2025-05-28T03:49:46.978Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "f430dc96-9b1f-406c-b20c-aecf01c9e16f",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "/ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "class FraudDetectionPipeline:\n    # ...\n    def frequency_encode(self, columns_to_encode):\n        # ...\n                combined_series = pd.concat([self.X_train[col], self.X_test[col]], ignore_index=True)\n                vc = combined_series.value_counts(dropna=False, normalize=True).to_dict()\n                self.X_train[new_col_name] = self.X_train[col].map(vc).astype('float32')\n                self.X_test[new_col_name] = self.X_test[col].map(vc).astype('float32')\n    # Similar leakage patterns in label_encode and create_aggregations"
+          },
+          "severity": "HIGH",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Data Leakage in Feature Engineering Affecting Model Validation and Back-testing",
+          "explanation": "The feature engineering process within the `FraudDetectionPipeline` class (specifically in methods like `frequency_encode`, `label_encode`, and `create_aggregations`) combines training and test data *before* creating features for the training set. For example, `frequency_encode` concatenates `self.X_train[col]` and `self.X_test[col]` to calculate value counts which are then used to encode both training and test features. This introduces data leakage from the test set into the training process. Consequently, the `GroupKFold` cross-validation, which is intended to simulate out-of-time performance and act as a back-testing procedure, provides an overly optimistic and unreliable view of the model's generalization ability on truly unseen data. This makes the selected testing technique less appropriate and the back-testing results unreliable.",
+          "remediation": [
+            {
+              "name": "Isolate Feature Engineering within Folds",
+              "details": "For frequency encoding, calculate frequencies on the training fold only and then map these frequencies to the validation/test folds; handle new/unseen values in validation/test (e.g., map to a default frequency or NaN). For label encoding, fit the encoder on the training fold and use it to transform validation/test folds, handling new categories appropriately. For aggregations, compute aggregates based solely on the training fold data and then merge these aggregates onto the validation/test data using the UID columns.",
+              "description": "Modify feature engineering methods to prevent data leakage from the test set (or validation folds) into the training set (or training folds). Transformations should be learned only from the training data and then applied to validation/test data."
+            },
+            {
+              "name": "Document Corrected Procedure",
+              "details": "Ensure that the methodology section clearly states that feature engineering is performed independently for each training fold to prevent data leakage and ensure a robust evaluation of model performance.",
+              "description": "Update documentation to reflect the corrected, leak-free validation and back-testing approach."
+            }
+          ],
+          "violatedControl": "SR 11-7-122 - Implementing Back-testing Procedures, SR 11-7-117 - Selecting Appropriate Testing Techniques",
+          "severityRationale": "Data leakage leads to inflated performance metrics and an unreliable assessment of the model's generalization ability, potentially resulting in deploying a model that performs poorly in production. This directly impacts the validity of back-testing (SR 11-7-122) and the appropriateness of the chosen testing techniques (SR 11-7-117)."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "if 'DT_M' not in self.X_train.columns:\n    # ...\ngroups = self.X_train['DT_M']\nskf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):"
+          },
+          "explanation": "By grouping cross-validation folds by 'DT_M', the pipeline attempts to implement a back-testing procedure to evaluate model performance on temporally distinct data. While Flag 1 notes data leakage impacting its current reliability, the implementation of a procedure intended for back-testing exists.",
+          "evidenceTitle": "Time-Aware Cross-Validation Implemented as a Back-testing Procedure",
+          "evidenceStatement": "The model training process utilizes `GroupKFold` cross-validation where folds are grouped by 'DT_M' (derived monthly transaction feature). This approach is designed to simulate out-of-time validation, serving as a form of back-testing procedure.",
+          "supportedControlID": "SR 11-7-122 - Implementing Back-testing Procedures"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-122",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Implementing Back-testing Procedures"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "if 'DT_M' not in self.X_train.columns:\n    # ...\ngroups = self.X_train['DT_M']\nskf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):"
+        },
+        "explanation": "By grouping cross-validation folds by 'DT_M', the pipeline attempts to implement a back-testing procedure to evaluate model performance on temporally distinct data. While Flag 1 notes data leakage impacting its current reliability, the implementation of a procedure intended for back-testing exists.",
+        "evidenceTitle": "Time-Aware Cross-Validation Implemented as a Back-testing Procedure",
+        "evidenceStatement": "The model training process utilizes `GroupKFold` cross-validation where folds are grouped by 'DT_M' (derived monthly transaction feature). This approach is designed to simulate out-of-time validation, serving as a form of back-testing procedure.",
+        "supportedControlID": "SR 11-7-122 - Implementing Back-testing Procedures"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "08baf87d-ca83-4ba9-8fa1-609cbb00701c",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "5af34543-2108-4aa7-b186-313a9ce6a84c",
+    "controlId": "SR 11-7-117",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.310Z",
+    "completedAt": "2025-05-28T03:49:46.980Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "f430dc96-9b1f-406c-b20c-aecf01c9e16f",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "/ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "class FraudDetectionPipeline:\n    # ...\n    def frequency_encode(self, columns_to_encode):\n        # ...\n                combined_series = pd.concat([self.X_train[col], self.X_test[col]], ignore_index=True)\n                vc = combined_series.value_counts(dropna=False, normalize=True).to_dict()\n                self.X_train[new_col_name] = self.X_train[col].map(vc).astype('float32')\n                self.X_test[new_col_name] = self.X_test[col].map(vc).astype('float32')\n    # Similar leakage patterns in label_encode and create_aggregations"
+          },
+          "severity": "HIGH",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Data Leakage in Feature Engineering Affecting Model Validation and Back-testing",
+          "explanation": "The feature engineering process within the `FraudDetectionPipeline` class (specifically in methods like `frequency_encode`, `label_encode`, and `create_aggregations`) combines training and test data *before* creating features for the training set. For example, `frequency_encode` concatenates `self.X_train[col]` and `self.X_test[col]` to calculate value counts which are then used to encode both training and test features. This introduces data leakage from the test set into the training process. Consequently, the `GroupKFold` cross-validation, which is intended to simulate out-of-time performance and act as a back-testing procedure, provides an overly optimistic and unreliable view of the model's generalization ability on truly unseen data. This makes the selected testing technique less appropriate and the back-testing results unreliable.",
+          "remediation": [
+            {
+              "name": "Isolate Feature Engineering within Folds",
+              "details": "For frequency encoding, calculate frequencies on the training fold only and then map these frequencies to the validation/test folds; handle new/unseen values in validation/test (e.g., map to a default frequency or NaN). For label encoding, fit the encoder on the training fold and use it to transform validation/test folds, handling new categories appropriately. For aggregations, compute aggregates based solely on the training fold data and then merge these aggregates onto the validation/test data using the UID columns.",
+              "description": "Modify feature engineering methods to prevent data leakage from the test set (or validation folds) into the training set (or training folds). Transformations should be learned only from the training data and then applied to validation/test data."
+            },
+            {
+              "name": "Document Corrected Procedure",
+              "details": "Ensure that the methodology section clearly states that feature engineering is performed independently for each training fold to prevent data leakage and ensure a robust evaluation of model performance.",
+              "description": "Update documentation to reflect the corrected, leak-free validation and back-testing approach."
+            }
+          ],
+          "violatedControl": "SR 11-7-122 - Implementing Back-testing Procedures, SR 11-7-117 - Selecting Appropriate Testing Techniques",
+          "severityRationale": "Data leakage leads to inflated performance metrics and an unreliable assessment of the model's generalization ability, potentially resulting in deploying a model that performs poorly in production. This directly impacts the validity of back-testing (SR 11-7-122) and the appropriateness of the chosen testing techniques (SR 11-7-117)."
+        },
+        {
+          "uuid": "5355c1ff-23de-4c93-a617-2be568701822",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "/ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "Within the `train_model` method (cell '238b64c6-e436-4a95-8099-68d7fdba0307'):\nskf = GroupKFold(n_splits=n_splits)\n# ...\nprint(f\"Fold {fold_num} Val AUC: {roc_auc_score(y_fold_val, val_preds):.4f}\")\nThis shows reliance on GroupKFold and AUC without documented stress/sensitivity tests."
+          },
+          "severity": "LOW",
+          "flagLabel": "Testing Practices",
+          "flagTitle": "Limited Scope of Documented Testing Techniques for Model Robustness",
+          "explanation": "The notebook uses `GroupKFold` cross-validation with ROC AUC as the primary evaluation metric, which is a reasonable technique for initial performance assessment on time-series like data. However, the selection of testing techniques appears limited. For a comprehensive evaluation, especially for a high-risk application like fraud detection, documentation of additional testing techniques such as stress testing (evaluating model performance under adverse or significantly shifted data conditions) and sensitivity analysis (assessing how model outputs change with variations in key inputs or parameters) is lacking. The appropriateness of the current `GroupKFold` is also weakened by the data leakage identified in another flag.",
+          "remediation": [
+            {
+              "name": "Implement and Document Stress and Sensitivity Testing",
+              "details": "Conduct stress tests by simulating scenarios like significant shifts in transaction value distributions, increased prevalence of new fraud patterns, or periods with higher missing data for critical features. Perform sensitivity analysis on the most influential features (identified via feature importance) or key model hyperparameters to understand their impact on predictions and stability.",
+              "description": "Expand the model evaluation to include and document stress testing and sensitivity analysis."
+            },
+            {
+              "name": "Document Robustness Test Results",
+              "details": "Document the results of stress and sensitivity tests in the notebook. This documentation should provide a more complete picture of the model's reliability, stability, and limitations under various conditions, justifying the selection of a comprehensive suite of testing techniques.",
+              "description": "Report on the model's robustness based on these additional tests."
+            }
+          ],
+          "violatedControl": "SR 11-7-117 - Selecting Appropriate Testing Techniques",
+          "severityRationale": "While initial validation techniques are applied, the absence of documented stress testing and sensitivity analysis indicates a gap in the selection of a full range of appropriate testing techniques to understand model robustness and behavior under non-standard conditions, as per SR 11-7-117."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "groups = self.X_train['DT_M']\nskf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):"
+          },
+          "explanation": "The selection of `GroupKFold` demonstrates consideration for the temporal characteristics of the dataset, aiming for a more realistic performance estimation than standard k-fold. This represents the selection of one appropriate technique, although its current implementation has limitations noted in flags.",
+          "evidenceTitle": "Selection of GroupKFold for Time-Sensitive Data Evaluation",
+          "evidenceStatement": "`GroupKFold` grouped by a monthly feature ('DT_M') is selected as a testing technique. This choice is, in principle, appropriate for evaluating models on time-series-like data.",
+          "supportedControlID": "SR 11-7-117 - Selecting Appropriate Testing Techniques"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "self.xgb_params = {\n    # ...\n    'eval_metric': 'auc',\n    # ...\n}\n# ... in train_model():\nprint(f\"Fold {fold_num} Val AUC: {roc_auc_score(y_fold_val, val_preds):.4f}\")"
+          },
+          "explanation": "Choosing ROC AUC demonstrates the selection of a standard and appropriate performance metric for evaluating the model's discriminative ability in fraud detection, a key aspect of selecting appropriate testing techniques.",
+          "evidenceTitle": "ROC AUC Selected as Primary Model Evaluation Metric",
+          "evidenceStatement": "The ROC AUC score is selected as the evaluation metric for model training (XGBoost `eval_metric`) and cross-validation. This metric is appropriate for binary classification with imbalanced datasets.",
+          "supportedControlID": "SR 11-7-117 - Selecting Appropriate Testing Techniques"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "early_stop_callback = EarlyStopping(\n    rounds=early_stopping_rounds_config,\n    metric_name='auc',\n    save_best=True\n)\ncurrent_params['callbacks'] = [early_stop_callback]"
+          },
+          "explanation": "The use of early stopping is an appropriate testing technique selected to optimize model generalization and avoid fitting noise, contributing to the selection of a robust model.",
+          "evidenceTitle": "Early Stopping Implemented to Prevent Overfitting",
+          "evidenceStatement": "The model training incorporates an `EarlyStopping` callback based on validation AUC to prevent overfitting and select a more robust model iteration.",
+          "supportedControlID": "SR 11-7-117 - Selecting Appropriate Testing Techniques"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-117",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Selecting Appropriate Testing Techniques"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "groups = self.X_train['DT_M']\nskf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):"
+        },
+        "explanation": "The selection of `GroupKFold` demonstrates consideration for the temporal characteristics of the dataset, aiming for a more realistic performance estimation than standard k-fold. This represents the selection of one appropriate technique, although its current implementation has limitations noted in flags.",
+        "evidenceTitle": "Selection of GroupKFold for Time-Sensitive Data Evaluation",
+        "evidenceStatement": "`GroupKFold` grouped by a monthly feature ('DT_M') is selected as a testing technique. This choice is, in principle, appropriate for evaluating models on time-series-like data.",
+        "supportedControlID": "SR 11-7-117 - Selecting Appropriate Testing Techniques"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "self.xgb_params = {\n    # ...\n    'eval_metric': 'auc',\n    # ...\n}\n# ... in train_model():\nprint(f\"Fold {fold_num} Val AUC: {roc_auc_score(y_fold_val, val_preds):.4f}\")"
+        },
+        "explanation": "Choosing ROC AUC demonstrates the selection of a standard and appropriate performance metric for evaluating the model's discriminative ability in fraud detection, a key aspect of selecting appropriate testing techniques.",
+        "evidenceTitle": "ROC AUC Selected as Primary Model Evaluation Metric",
+        "evidenceStatement": "The ROC AUC score is selected as the evaluation metric for model training (XGBoost `eval_metric`) and cross-validation. This metric is appropriate for binary classification with imbalanced datasets.",
+        "supportedControlID": "SR 11-7-117 - Selecting Appropriate Testing Techniques"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "early_stop_callback = EarlyStopping(\n    rounds=early_stopping_rounds_config,\n    metric_name='auc',\n    save_best=True\n)\ncurrent_params['callbacks'] = [early_stop_callback]"
+        },
+        "explanation": "The use of early stopping is an appropriate testing technique selected to optimize model generalization and avoid fitting noise, contributing to the selection of a robust model.",
+        "evidenceTitle": "Early Stopping Implemented to Prevent Overfitting",
+        "evidenceStatement": "The model training incorporates an `EarlyStopping` callback based on validation AUC to prevent overfitting and select a more robust model iteration.",
+        "supportedControlID": "SR 11-7-117 - Selecting Appropriate Testing Techniques"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "8b9cd873-0e8d-4ba7-83c7-1e6a1db000f5",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "d5d12bc5-b60e-42db-9809-9dc3123bd47d",
+    "controlId": "SR 11-7-085",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.316Z",
+    "completedAt": "2025-05-28T03:54:33.633Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "d54b8382-0f9d-4499-8c93-db5d0d213b9f",
+          "location": {
+            "scope": "NOTEBOOK_LEVEL",
+            "cellIDs": null,
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "The notebook's overall scope, including the 'Conclusion' (cell 'd6aeeded-ce72-49d4-9611-e5060f384462'), focuses on the model build and evaluation phases but does not address the design of a post-deployment continuous monitoring program."
+          },
+          "severity": "INFORMATIONAL",
+          "flagLabel": "Model Governance",
+          "flagTitle": "Absence of Design for a Continuous Model Monitoring Program",
+          "explanation": "The notebook details the development, training, and evaluation of a fraud detection model. However, it does not include any section, code, or documentation discussing the design of a continuous monitoring program for this model, which would be essential if the model were intended for deployment. This includes the absence of defined key performance indicators (KPIs) for ongoing production monitoring, mechanisms for detecting data or concept drift, alert thresholds for performance degradation, or planned recalibration/retraining strategies.",
+          "remediation": [
+            {
+              "name": "Design Continuous Monitoring Plan",
+              "details": "If the model is intended for production use, design a comprehensive monitoring plan. This plan should specify: key metrics to track (e.g., AUC, precision, recall, PSI for features, fraud detection rate), alert thresholds for significant deviations, frequency of monitoring, and procedures for addressing performance issues, including model retraining or recalibration.",
+              "description": "Develop a continuous monitoring plan for the model."
+            },
+            {
+              "name": "Document Monitoring Strategy",
+              "details": "Add a section to the project documentation or a dedicated document outlining the continuous monitoring strategy, including responsibilities, tools, and reporting mechanisms.",
+              "description": "Document the monitoring plan."
+            }
+          ],
+          "violatedControl": "SR 11-7-085 - Designing Continuous Monitoring Programs",
+          "severityRationale": "This notebook primarily serves as a development and evaluation artifact. The absence of a continuous monitoring program design is an informational finding, highlighting a necessary component for operationalizing the model under robust model risk management practices, rather than a flaw in the development work itself."
+        }
+      ],
+      "evidence": [],
+      "metadata": {
+        "controlId": "SR 11-7-085",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Designing Continuous Monitoring Programs"
+      }
+    },
+    "complianceEvidence": [],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "3eb81965-010c-441d-98c9-35951502ad2a",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "d5d12bc5-b60e-42db-9809-9dc3123bd47d",
+    "controlId": "SR 11-7-072",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.318Z",
+    "completedAt": "2025-05-28T03:54:33.638Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "44aceab8-56d8-4a63-9863-5d4fe76b6991",
+          "location": {
+            "scope": "NOTEBOOK_LEVEL",
+            "cellIDs": null,
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "The 'train_model' method within the 'FraudDetectionPipeline' class (cell '238b64c6-e436-4a95-8099-68d7fdba0307') implements GroupKFold cross-validation but does not include provisions for stress testing the model with significantly altered input data or under simulated adverse conditions."
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Lack of Explicit Model Stress Testing Scenarios",
+          "explanation": "The notebook trains and evaluates an XGBoost model for fraud detection using GroupKFold cross-validation. While GroupKFold addresses temporal aspects and provides some measure of stability across different time periods by using 'DT_M' (month) for splits, there is no explicit code or documented methodology for conducting more extensive model stress tests. Stress testing would involve evaluating the model's behavior and performance under significantly perturbed input features, simulated adverse economic scenarios (e.g., sudden spikes in fraud attempts), or against extreme or out-of-distribution data. This omission limits the comprehensive assessment of the model's robustness under severe conditions as expected by SR 11-7-072.",
+          "remediation": [
+            {
+              "name": "Implement Stress Testing",
+              "details": "Develop scenarios that include: 1. Perturbing key input features (e.g., TransactionAmt, card1 counts) to extreme values. 2. Testing the model with synthetic data representing adverse conditions (e.g., significantly higher fraud rates, new fraud patterns). 3. Assessing model performance if certain critical features become unavailable. Document the methodology, scenarios, and results of these stress tests.",
+              "description": "Implement and document model stress testing scenarios to evaluate performance under extreme conditions."
+            },
+            {
+              "name": "Conduct Sensitivity Analysis for Extreme Inputs",
+              "details": "Systematically vary input features beyond their typical ranges and observe the impact on model predictions and performance metrics like AUC and precision/recall. This helps identify thresholds beyond which model performance degrades significantly.",
+              "description": "Analyze model sensitivity to extreme inputs."
+            }
+          ],
+          "violatedControl": "SR 11-7-072 - Conducting Model Stress Testing",
+          "severityRationale": "Failure to conduct formal stress testing means the model's performance under extreme or unexpected market conditions is unknown, potentially leading to significant model failure when such conditions arise. GroupKFold provides some basic robustness check against temporal variations but does not cover severe stress scenarios, making this a medium risk."
+        }
+      ],
+      "evidence": [],
+      "metadata": {
+        "controlId": "SR 11-7-072",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Conducting Model Stress Testing"
+      }
+    },
+    "complianceEvidence": [],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "ac6bca44-ab4e-4efb-9315-3b36a2f0ff0d",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "d5d12bc5-b60e-42db-9809-9dc3123bd47d",
+    "controlId": "SR 11-7-019",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.321Z",
+    "completedAt": "2025-05-28T03:54:33.640Z",
+    "complianceFlags": {
+      "flags": [],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\ngroups = self.X_train['DT_M']\nskf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):"
+          },
+          "explanation": "By splitting the data into folds based on month ('DT_M') as implemented in cell '238b64c6-e436-4a95-8099-68d7fdba0307', the `GroupKFold` strategy explicitly tests the model's performance under conditions prevalent in different time periods. This addresses SR 11-7-019 by providing a mechanism to assess how the model generalizes across these varied temporal segments, which can reflect changing market dynamics or data characteristics over time. While a related flag (SR 11-7-017) notes the assessment of stability across these folds could be more rigorous, the method itself demonstrates an attempt to test under varied conditions.",
+          "evidenceTitle": "Model Testing Across Different Time Periods using GroupKFold",
+          "evidenceStatement": "The use of `GroupKFold` based on the 'DT_M' (month) feature ensures the model is trained and validated on different temporal segments of the data, which simulates testing under varied conditions that may arise over time.",
+          "supportedControlID": "SR 11-7-019 - Testing Models Under Varied Market Conditions"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-019",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Testing Models Under Varied Market Conditions"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\ngroups = self.X_train['DT_M']\nskf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):"
+        },
+        "explanation": "By splitting the data into folds based on month ('DT_M') as implemented in cell '238b64c6-e436-4a95-8099-68d7fdba0307', the `GroupKFold` strategy explicitly tests the model's performance under conditions prevalent in different time periods. This addresses SR 11-7-019 by providing a mechanism to assess how the model generalizes across these varied temporal segments, which can reflect changing market dynamics or data characteristics over time. While a related flag (SR 11-7-017) notes the assessment of stability across these folds could be more rigorous, the method itself demonstrates an attempt to test under varied conditions.",
+        "evidenceTitle": "Model Testing Across Different Time Periods using GroupKFold",
+        "evidenceStatement": "The use of `GroupKFold` based on the 'DT_M' (month) feature ensures the model is trained and validated on different temporal segments of the data, which simulates testing under varied conditions that may arise over time.",
+        "supportedControlID": "SR 11-7-019 - Testing Models Under Varied Market Conditions"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "fa1d73ee-4f00-443b-b4bf-a63d86770d77",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "d5d12bc5-b60e-42db-9809-9dc3123bd47d",
+    "controlId": "SR 11-7-018",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.324Z",
+    "completedAt": "2025-05-28T03:54:33.642Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "0fc804f8-2e34-460e-8ae8-0bfc631c99f2",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "def prepare_features(self):\n    print(\"\\n--- Starting Feature Preparation ---\")\n    START_DATE = '2017-12-01'\n    # ...\n    print(f\"\\nFilling NaNs with -1 for {len(self.features)} features in X_train and X_test...\")\n    if self.features:\n        self.X_train[self.features] = self.X_train[self.features].fillna(-1)\n        self.X_test[self.features] = self.X_test[self.features].fillna(-1)"
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Limited Assessment and Documentation of Key Feature Engineering Assumptions",
+          "explanation": "The notebook's 'prepare_features' method within the 'FraudDetectionPipeline' class employs several feature engineering techniques, such as imputing missing values with -1 (e.g., `self.X_train[self.features] = self.X_train[self.features].fillna(-1)`) and deriving time-based features from 'TransactionDT' using a fixed `START_DATE = '2017-12-01'`. These steps carry implicit assumptions (e.g., that -1 is an appropriate and informative imputation for diverse features, or that the chosen START_DATE is accurate and its choice does not unduly bias time-derived features across the dataset's actual timeline). The notebook does not explicitly document these assumptions or assess their potential impact on model performance and stability through sensitivity analysis or alternative approaches. This lack of assessment can lead to a model that is brittle if these underlying assumptions do not hold true over time or with new data.",
+          "remediation": [
+            {
+              "name": "Document Feature Engineering Assumptions",
+              "details": "Add markdown cells or comments within the 'prepare_features' method to explicitly state the assumptions behind choices like the NaN imputation strategy (-1) and the selection of `START_DATE`. Explain the rationale for these choices.",
+              "description": "Document key assumptions made during feature engineering."
+            },
+            {
+              "name": "Perform Sensitivity Analysis on Assumptions",
+              "details": "Perform analyses to test the model's sensitivity to: 1. Different imputation methods for NaNs (e.g., mean, median, or a dedicated category). 2. Variations in the `START_DATE` used for time feature derivation. Compare model performance and stability under these varied assumptions.",
+              "description": "Conduct sensitivity analysis on critical assumptions."
+            }
+          ],
+          "violatedControl": "SR 11-7-018 - Assessing Impact of Assumptions",
+          "severityRationale": "Unvalidated assumptions in feature engineering can lead to model performance degradation or unreliability if these assumptions do not hold true with new data or changing underlying conditions. While the model shows good CV performance, its long-term robustness concerning these assumptions is untested."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+              "238b64c6-e436-4a95-8099-68d7fdba0307"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "Cell '3e7544cb-3aaf-4e32-9ccc-ebf3216935f0':\ndtypes = {\n    'TransactionID': 'int32',\n    # ... other dtypes\n}\nTRANSACTION_TRAIN_PATH = f'{KAGGLE_CACHE_PATH}train_transaction.csv'\nIn 'prepare_features' method (cell '238b64c6-e436-4a95-8099-68d7fdba0307'):\nSTART_DATE = '2017-12-01'"
+          },
+          "explanation": "The explicit definition of `dtypes`, file paths in cell '3e7544cb-3aaf-4e32-9ccc-ebf3216935f0', and `START_DATE` in the `prepare_features` method (cell '238b64c6-e436-4a95-8099-68d7fdba0307') demonstrates an effort to document underlying assumptions regarding data structure, sources, and the temporal baseline for feature creation. This documentation is a foundational step for assessing the impact of assumptions as required by SR 11-7-018. While an identified flag notes *limited assessment of impact* for some of these (like START_DATE), their explicit documentation is present.",
+          "evidenceTitle": "Explicit Definition of Data Types, Paths, and START_DATE for Feature Engineering",
+          "evidenceStatement": "The notebook explicitly defines key parameters like data types for memory optimization, file paths, and a `START_DATE` for temporal feature engineering. These represent documented assumptions about the data structure, sources, and processing baseline.",
+          "supportedControlID": "SR 11-7-018 - Assessing Impact of Assumptions"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "In FraudDetectionPipeline class constructor:\nself.xgb_params = {\n    'max_depth': 12, # Original: 12\n    'learning_rate': 0.015, # Original: 0.02, slightly lower\n    'n_estimators': 3000, # Original: 2000, increased\n    # ... other params\n}"
+          },
+          "explanation": "The defined `xgb_params` in the pipeline's constructor (cell '238b64c6-e436-4a95-8099-68d7fdba0307') explicitly states the initial assumptions regarding the XGBoost model's configuration (e.g., max_depth, learning_rate). This documentation of parameters is a prerequisite for any subsequent assessment of their impact on model performance, aligning with the principles of SR 11-7-018.",
+          "evidenceTitle": "Defined XGBoost Hyperparameters as Initial Model Assumptions",
+          "evidenceStatement": "The `FraudDetectionPipeline` class initializes a dictionary of XGBoost hyperparameters (`self.xgb_params`), representing explicit assumptions about the model's architecture and learning behavior.",
+          "supportedControlID": "SR 11-7-018 - Assessing Impact of Assumptions"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-018",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Assessing Impact of Assumptions"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "3e7544cb-3aaf-4e32-9ccc-ebf3216935f0",
+            "238b64c6-e436-4a95-8099-68d7fdba0307"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "Cell '3e7544cb-3aaf-4e32-9ccc-ebf3216935f0':\ndtypes = {\n    'TransactionID': 'int32',\n    # ... other dtypes\n}\nTRANSACTION_TRAIN_PATH = f'{KAGGLE_CACHE_PATH}train_transaction.csv'\nIn 'prepare_features' method (cell '238b64c6-e436-4a95-8099-68d7fdba0307'):\nSTART_DATE = '2017-12-01'"
+        },
+        "explanation": "The explicit definition of `dtypes`, file paths in cell '3e7544cb-3aaf-4e32-9ccc-ebf3216935f0', and `START_DATE` in the `prepare_features` method (cell '238b64c6-e436-4a95-8099-68d7fdba0307') demonstrates an effort to document underlying assumptions regarding data structure, sources, and the temporal baseline for feature creation. This documentation is a foundational step for assessing the impact of assumptions as required by SR 11-7-018. While an identified flag notes *limited assessment of impact* for some of these (like START_DATE), their explicit documentation is present.",
+        "evidenceTitle": "Explicit Definition of Data Types, Paths, and START_DATE for Feature Engineering",
+        "evidenceStatement": "The notebook explicitly defines key parameters like data types for memory optimization, file paths, and a `START_DATE` for temporal feature engineering. These represent documented assumptions about the data structure, sources, and processing baseline.",
+        "supportedControlID": "SR 11-7-018 - Assessing Impact of Assumptions"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "In FraudDetectionPipeline class constructor:\nself.xgb_params = {\n    'max_depth': 12, # Original: 12\n    'learning_rate': 0.015, # Original: 0.02, slightly lower\n    'n_estimators': 3000, # Original: 2000, increased\n    # ... other params\n}"
+        },
+        "explanation": "The defined `xgb_params` in the pipeline's constructor (cell '238b64c6-e436-4a95-8099-68d7fdba0307') explicitly states the initial assumptions regarding the XGBoost model's configuration (e.g., max_depth, learning_rate). This documentation of parameters is a prerequisite for any subsequent assessment of their impact on model performance, aligning with the principles of SR 11-7-018.",
+        "evidenceTitle": "Defined XGBoost Hyperparameters as Initial Model Assumptions",
+        "evidenceStatement": "The `FraudDetectionPipeline` class initializes a dictionary of XGBoost hyperparameters (`self.xgb_params`), representing explicit assumptions about the model's architecture and learning behavior.",
+        "supportedControlID": "SR 11-7-018 - Assessing Impact of Assumptions"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "c34a57f6-4530-4023-97ba-1f191e89db79",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "d5d12bc5-b60e-42db-9809-9dc3123bd47d",
+    "controlId": "SR 11-7-017",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.326Z",
+    "completedAt": "2025-05-28T03:54:33.644Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "eb319722-b902-4d64-bf0c-301a9e6806c8",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["a8405206-533e-46d9-8b80-661b944c9c6b"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "Output of cell a8405206-533e-46d9-8b80-661b944c9c6b:\nFold 1 Val AUC: 0.9187\nFold 2 Val AUC: 0.9438\nFold 3 Val AUC: 0.9510\nFold 4 Val AUC: 0.9432\nFold 5 Val AUC: 0.9460\nFold 6 Val AUC: 0.9573\n\n--- Cross-validation ROC AUC: 0.9429 ---"
+          },
+          "severity": "LOW",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Model Performance Stability Across Folds Needs More Rigorous Assessment",
+          "explanation": "The model training process uses GroupKFold cross-validation, and the AUC scores for each of the 6 folds are reported as: Fold 1: 0.9187, Fold 2: 0.9438, Fold 3: 0.9510, Fold 4: 0.9432, Fold 5: 0.9460, Fold 6: 0.9573. The overall CV ROC AUC is 0.9429. While this average performance is good, there is a noticeable variation in AUC scores across folds, with a range of approximately 0.0386 (from 0.9187 to 0.9573). This degree of variability is observed but not explicitly analyzed or discussed in terms of acceptable stability thresholds or its implications for the model's consistency across different time periods or data segments.",
+          "remediation": [
+            {
+              "name": "Define Stability Thresholds",
+              "details": "Establish clear criteria for model stability, such as the maximum allowable standard deviation or range of performance metrics (e.g., AUC) across cross-validation folds. Document these thresholds.",
+              "description": "Define and document acceptable model stability thresholds."
+            },
+            {
+              "name": "Analyze Fold Performance Variability",
+              "details": "Investigate the reasons for the observed variability in AUC scores across folds. This might involve examining data characteristics or feature distributions within each fold. Document this analysis and assess if the variability is within acceptable limits. If not, consider model adjustments (e.g., feature selection, parameter tuning) to improve stability.",
+              "description": "Analyze and discuss observed performance variability."
+            }
+          ],
+          "violatedControl": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability",
+          "severityRationale": "The observed variability in performance across folds (approx. 3.86 percentage points in AUC) indicates some sensitivity to different data segments/time periods. While GroupKFold is a positive step for robustness, this variability warrants further investigation and comparison against defined stability criteria to ensure consistent model reliability."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "238b64c6-e436-4a95-8099-68d7fdba0307",
+              "a8405206-533e-46d9-8b80-661b944c9c6b"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\n        groups = self.X_train['DT_M']\n        skf = GroupKFold(n_splits=n_splits)\n        # ... loop through folds, train, and calculate val_preds, self.oof\n        cv_score = roc_auc_score(self.y_train, self.oof)\n        print(f'\\n--- Cross-validation ROC AUC: {cv_score:.4f} ---')\nOutput of cell a8405206-533e-46d9-8b80-661b944c9c6b shows fold AUCs and final CV AUC: 0.9429."
+          },
+          "explanation": "The use of GroupKFold based on 'DT_M' (month) in cell '238b64c6-e436-4a95-8099-68d7fdba0307' (train_model method) and its execution in 'a8405206-533e-46d9-8b80-661b944c9c6b' demonstrates an effort to evaluate model performance across different time periods. This is a key aspect of checking accuracy and robustness as per SR 11-7-017. The reporting of AUC for each fold and the overall CV AUC provides quantitative measures of accuracy. While an identified flag notes that the *assessment of stability across folds needs more rigor*, the implementation of this cross-validation technique itself is an affirmative step towards checking these aspects.",
+          "evidenceTitle": "GroupKFold Cross-Validation for Model Performance Assessment",
+          "evidenceStatement": "The notebook implements GroupKFold cross-validation using 'DT_M' (month) for splits to assess model accuracy (ROC AUC) and provide a measure of robustness across different temporal data segments, reporting AUC for each fold and an overall CV AUC.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\nearly_stop_callback = EarlyStopping(\n    rounds=early_stopping_rounds_config,\n    metric_name='auc', # Monitor AUC on eval set\n    save_best=True     # Model returned will be the best one\n)\ncurrent_params['callbacks'] = [early_stop_callback]\nfold_model = xgb.XGBClassifier(**current_params)\nfold_model.fit(...)"
+          },
+          "explanation": "The 'train_model' method in cell '238b64c6-e436-4a95-8099-68d7fdba0307' utilizes an `EarlyStopping` callback. This callback monitors the validation set's AUC and stops the training process when the metric no longer improves, ensuring the model returned is the one with the best performance on unseen validation data for that fold. This practice enhances model stability and generalizability by preventing overfitting to the training data, aligning with SR 11-7-017's requirement to check for model robustness.",
+          "evidenceTitle": "Use of Early Stopping to Enhance Model Stability and Prevent Overfitting",
+          "evidenceStatement": "Early stopping is implemented during XGBoost model training using the validation AUC to find the optimal number of boosting rounds, which contributes to model stability and helps prevent overfitting.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "238b64c6-e436-4a95-8099-68d7fdba0307",
+              "f53cfe7e-1cef-4a1a-b753-f061348460b4",
+              "526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\nself.mean_feature_importances_ = self.feature_importances_.groupby('feature')['importance'].mean().sort_values(ascending=False).reset_index()\nCell f53cfe7e-1cef-4a1a-b753-f061348460b4 calls `pipeline.plot_feature_importance(top_n=50)`. Cell 526f66f6-ee9f-44f1-b703-d3cbc41d4d85 shows the printed table of feature importances."
+          },
+          "explanation": "The calculation of mean feature importances across folds (in 'train_model' method, cell '238b64c6-e436-4a95-8099-68d7fdba0307'), their visualization (called in cell 'f53cfe7e-1cef-4a1a-b753-f061348460b4'), and explicit listing (cell '526f66f6-ee9f-44f1-b703-d3cbc41d4d85') identify key drivers of the model's predictions. This understanding is crucial for assessing model robustness by allowing scrutiny of whether the model relies on sensible and stable features, aligning with SR 11-7-017.",
+          "evidenceTitle": "Feature Importance Analysis for Model Interpretability and Robustness Check",
+          "evidenceStatement": "The pipeline calculates, aggregates feature importances across cross-validation folds, and provides functionality to plot them, aiding in understanding model drivers and contributing to the assessment of model robustness.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["352478a3-6f00-4c86-b2f5-9d3b56f48086"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "import xgboost\nprint(xgboost.__version__)\n\nOutput: 2.1.4"
+          },
+          "explanation": "By printing the XGBoost version (2.1.4) in cell '352478a3-6f00-4c86-b2f5-9d3b56f48086', the notebook documents a critical component of its execution environment. This aids in ensuring reproducibility, which is important for model stability and robustness checks (SR 11-7-017), and understanding environmental assumptions (SR 11-7-018).",
+          "evidenceTitle": "XGBoost Version Check and Display for Reproducibility",
+          "evidenceStatement": "The notebook explicitly imports and prints the version of the XGBoost library (2.1.4), aiding in reproducibility and understanding the specific software environment, which is an aspect of documenting assumptions and checking model robustness.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "In FraudDetectionPipeline class, prepare_features method:\nobject_cols_to_encode = [col for col in self.X_train.select_dtypes(include=['object']).columns\n                                 if col in self.X_test.columns and col not in ['DT_M']]\nfor col in object_cols_to_encode:\n    self.label_encode(col)"
+          },
+          "explanation": "The code in cell '238b64c6-e436-4a95-8099-68d7fdba0307' systematically processes categorical features using label encoding. This consistent preprocessing step ensures that these features are numerically represented in a stable and reproducible manner for the XGBoost model, which supports the robustness and stability aspects of SR 11-7-017. The choice of encoding is also an implicit assumption (SR 11-7-018).",
+          "evidenceTitle": "Systematic Label Encoding of Object Columns for Consistent Preprocessing",
+          "evidenceStatement": "The `prepare_features` method systematically identifies and label encodes all object-type columns. This consistent preprocessing contributes to the stability and reproducibility of the feature set used by the model.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["d3522972-7fb9-46e4-a299-33866c7fd618"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "### Introduction\n\nDetecting fraudulent online transactions is a critical challenge in digital commerce. This document outlines a machine learning pipeline utilizing XGBoost to predict fraud probability on the IEEE-CIS Fraud Detection dataset.\n\nThe approach focuses on robust feature engineering... Key steps include data loading and preprocessing... The model is trained using GroupKFold cross-validation..."
+          },
+          "explanation": "The markdown cell 'd3522972-7fb9-46e4-a299-33866c7fd618' clearly documents the model's objective, scope, and the general methodology. This documentation is fundamental for understanding the model's design, which is a prerequisite for checking its accuracy, robustness, and stability as per SR 11-7-017. It also sets the context for assumptions made (SR 11-7-018).",
+          "evidenceTitle": "Notebook Introduction Documenting Model Objective and Methodology",
+          "evidenceStatement": "The initial markdown cell provides a clear introduction detailing the model's purpose (fraud detection), the dataset, the general modeling approach (XGBoost), and key methodological steps like feature engineering and cross-validation.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "## Conclusion\n...achieving a cross-validation ROC AUC score of **0.9429**.\n* **Insightful Feature Analysis:** The feature importance plot revealed that V-columns such as V258, V201, and V246 were among the most influential predictors in this model."
+          },
+          "explanation": "The conclusion in cell 'd6aeeded-ce72-49d4-9611-e5060f384462' explicitly states the model's overall accuracy via the CV ROC AUC. It also discusses insights derived from feature importance analysis, which contributes to understanding the model's behavior. This documentation of final performance and key drivers demonstrates an evaluation of model accuracy and characteristics, relevant to SR 11-7-017.",
+          "evidenceTitle": "Conclusion Section Summarizing Model Performance and Key Findings",
+          "evidenceStatement": "The conclusion markdown cell summarizes the achieved cross-validation ROC AUC score (0.9429) and highlights key influential features, providing an assessment of the model's overall accuracy and insights from the development process.",
+          "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-017",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Checking Model Accuracy, Robustness, and Stability"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "238b64c6-e436-4a95-8099-68d7fdba0307",
+            "a8405206-533e-46d9-8b80-661b944c9c6b"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\n        groups = self.X_train['DT_M']\n        skf = GroupKFold(n_splits=n_splits)\n        # ... loop through folds, train, and calculate val_preds, self.oof\n        cv_score = roc_auc_score(self.y_train, self.oof)\n        print(f'\\n--- Cross-validation ROC AUC: {cv_score:.4f} ---')\nOutput of cell a8405206-533e-46d9-8b80-661b944c9c6b shows fold AUCs and final CV AUC: 0.9429."
+        },
+        "explanation": "The use of GroupKFold based on 'DT_M' (month) in cell '238b64c6-e436-4a95-8099-68d7fdba0307' (train_model method) and its execution in 'a8405206-533e-46d9-8b80-661b944c9c6b' demonstrates an effort to evaluate model performance across different time periods. This is a key aspect of checking accuracy and robustness as per SR 11-7-017. The reporting of AUC for each fold and the overall CV AUC provides quantitative measures of accuracy. While an identified flag notes that the *assessment of stability across folds needs more rigor*, the implementation of this cross-validation technique itself is an affirmative step towards checking these aspects.",
+        "evidenceTitle": "GroupKFold Cross-Validation for Model Performance Assessment",
+        "evidenceStatement": "The notebook implements GroupKFold cross-validation using 'DT_M' (month) for splits to assess model accuracy (ROC AUC) and provide a measure of robustness across different temporal data segments, reporting AUC for each fold and an overall CV AUC.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\nearly_stop_callback = EarlyStopping(\n    rounds=early_stopping_rounds_config,\n    metric_name='auc', # Monitor AUC on eval set\n    save_best=True     # Model returned will be the best one\n)\ncurrent_params['callbacks'] = [early_stop_callback]\nfold_model = xgb.XGBClassifier(**current_params)\nfold_model.fit(...)"
+        },
+        "explanation": "The 'train_model' method in cell '238b64c6-e436-4a95-8099-68d7fdba0307' utilizes an `EarlyStopping` callback. This callback monitors the validation set's AUC and stops the training process when the metric no longer improves, ensuring the model returned is the one with the best performance on unseen validation data for that fold. This practice enhances model stability and generalizability by preventing overfitting to the training data, aligning with SR 11-7-017's requirement to check for model robustness.",
+        "evidenceTitle": "Use of Early Stopping to Enhance Model Stability and Prevent Overfitting",
+        "evidenceStatement": "Early stopping is implemented during XGBoost model training using the validation AUC to find the optimal number of boosting rounds, which contributes to model stability and helps prevent overfitting.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "238b64c6-e436-4a95-8099-68d7fdba0307",
+            "f53cfe7e-1cef-4a1a-b753-f061348460b4",
+            "526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "In FraudDetectionPipeline class, train_model method:\nself.mean_feature_importances_ = self.feature_importances_.groupby('feature')['importance'].mean().sort_values(ascending=False).reset_index()\nCell f53cfe7e-1cef-4a1a-b753-f061348460b4 calls `pipeline.plot_feature_importance(top_n=50)`. Cell 526f66f6-ee9f-44f1-b703-d3cbc41d4d85 shows the printed table of feature importances."
+        },
+        "explanation": "The calculation of mean feature importances across folds (in 'train_model' method, cell '238b64c6-e436-4a95-8099-68d7fdba0307'), their visualization (called in cell 'f53cfe7e-1cef-4a1a-b753-f061348460b4'), and explicit listing (cell '526f66f6-ee9f-44f1-b703-d3cbc41d4d85') identify key drivers of the model's predictions. This understanding is crucial for assessing model robustness by allowing scrutiny of whether the model relies on sensible and stable features, aligning with SR 11-7-017.",
+        "evidenceTitle": "Feature Importance Analysis for Model Interpretability and Robustness Check",
+        "evidenceStatement": "The pipeline calculates, aggregates feature importances across cross-validation folds, and provides functionality to plot them, aiding in understanding model drivers and contributing to the assessment of model robustness.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["352478a3-6f00-4c86-b2f5-9d3b56f48086"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "import xgboost\nprint(xgboost.__version__)\n\nOutput: 2.1.4"
+        },
+        "explanation": "By printing the XGBoost version (2.1.4) in cell '352478a3-6f00-4c86-b2f5-9d3b56f48086', the notebook documents a critical component of its execution environment. This aids in ensuring reproducibility, which is important for model stability and robustness checks (SR 11-7-017), and understanding environmental assumptions (SR 11-7-018).",
+        "evidenceTitle": "XGBoost Version Check and Display for Reproducibility",
+        "evidenceStatement": "The notebook explicitly imports and prints the version of the XGBoost library (2.1.4), aiding in reproducibility and understanding the specific software environment, which is an aspect of documenting assumptions and checking model robustness.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "In FraudDetectionPipeline class, prepare_features method:\nobject_cols_to_encode = [col for col in self.X_train.select_dtypes(include=['object']).columns\n                                 if col in self.X_test.columns and col not in ['DT_M']]\nfor col in object_cols_to_encode:\n    self.label_encode(col)"
+        },
+        "explanation": "The code in cell '238b64c6-e436-4a95-8099-68d7fdba0307' systematically processes categorical features using label encoding. This consistent preprocessing step ensures that these features are numerically represented in a stable and reproducible manner for the XGBoost model, which supports the robustness and stability aspects of SR 11-7-017. The choice of encoding is also an implicit assumption (SR 11-7-018).",
+        "evidenceTitle": "Systematic Label Encoding of Object Columns for Consistent Preprocessing",
+        "evidenceStatement": "The `prepare_features` method systematically identifies and label encodes all object-type columns. This consistent preprocessing contributes to the stability and reproducibility of the feature set used by the model.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["d3522972-7fb9-46e4-a299-33866c7fd618"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "### Introduction\n\nDetecting fraudulent online transactions is a critical challenge in digital commerce. This document outlines a machine learning pipeline utilizing XGBoost to predict fraud probability on the IEEE-CIS Fraud Detection dataset.\n\nThe approach focuses on robust feature engineering... Key steps include data loading and preprocessing... The model is trained using GroupKFold cross-validation..."
+        },
+        "explanation": "The markdown cell 'd3522972-7fb9-46e4-a299-33866c7fd618' clearly documents the model's objective, scope, and the general methodology. This documentation is fundamental for understanding the model's design, which is a prerequisite for checking its accuracy, robustness, and stability as per SR 11-7-017. It also sets the context for assumptions made (SR 11-7-018).",
+        "evidenceTitle": "Notebook Introduction Documenting Model Objective and Methodology",
+        "evidenceStatement": "The initial markdown cell provides a clear introduction detailing the model's purpose (fraud detection), the dataset, the general modeling approach (XGBoost), and key methodological steps like feature engineering and cross-validation.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "## Conclusion\n...achieving a cross-validation ROC AUC score of **0.9429**.\n* **Insightful Feature Analysis:** The feature importance plot revealed that V-columns such as V258, V201, and V246 were among the most influential predictors in this model."
+        },
+        "explanation": "The conclusion in cell 'd6aeeded-ce72-49d4-9611-e5060f384462' explicitly states the model's overall accuracy via the CV ROC AUC. It also discusses insights derived from feature importance analysis, which contributes to understanding the model's behavior. This documentation of final performance and key drivers demonstrates an evaluation of model accuracy and characteristics, relevant to SR 11-7-017.",
+        "evidenceTitle": "Conclusion Section Summarizing Model Performance and Key Findings",
+        "evidenceStatement": "The conclusion markdown cell summarizes the achieved cross-validation ROC AUC score (0.9429) and highlights key influential features, providing an assessment of the model's overall accuracy and insights from the development process.",
+        "supportedControlID": "SR 11-7-017 - Checking Model Accuracy, Robustness, and Stability"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  },
+  {
+    "resultId": "7a115b94-28e9-421d-94e3-6672a66053cf",
+    "scanId": "4da69ab8-788e-4204-a20d-4012d4e2e6fd",
+    "batchId": "56176a4d-3185-426c-883d-d2b8a5d4b678",
+    "controlId": "SR 11-7-016",
+    "status": "COMPLETED",
+    "createdAt": "2025-05-28T03:44:04.331Z",
+    "completedAt": "2025-05-28T03:57:49.689Z",
+    "complianceFlags": {
+      "flags": [
+        {
+          "uuid": "bb05d5c5-fc4b-401b-a598-1e5fa797f71e",
+          "location": {
+            "scope": "NOTEBOOK_LEVEL",
+            "cellIDs": null,
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "## Conclusion\n\nThis notebook successfully implemented a comprehensive pipeline...Key steps included:\n...Robust Model Training: Utilized XGBoost with `GroupKFold` cross-validation...achieving a cross-validation ROC AUC score of **0.9429**.\n...The achieved AUC score indicates a good predictive performance."
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Absence of Explicit Sensitivity and Stress Testing",
+          "explanation": "The notebook implements cross-validation (GroupKFold) and evaluates the model on a test set, but it lacks explicit sensitivity analysis or stress testing procedures. Comprehensive model testing under SR 11-7-016 typically includes assessing model robustness to changes in input data, assumptions, and performance under adverse or unexpected conditions, which are not demonstrated.",
+          "remediation": [
+            {
+              "name": "Implement Sensitivity Analysis",
+              "details": "Implement techniques such as Partial Dependence Plots (PDP), Individual Conditional Expectation (ICE) plots, or systematically perturbing input features and observing the impact on ROC AUC or other key metrics. Document the methodology and findings.",
+              "description": "Incorporate and document sensitivity analysis to understand how model predictions change with variations in key input features or assumptions."
+            },
+            {
+              "name": "Perform Stress Testing",
+              "details": "Define and simulate scenarios such as significant shifts in transaction patterns, higher fraud rates, or data quality issues. Evaluate the model's performance and stability under these stress conditions and document the results.",
+              "description": "Conduct and document stress tests to evaluate model performance under extreme or adverse data scenarios relevant to fraud detection."
+            }
+          ],
+          "violatedControl": "SR 11-7-016 - Conducting Comprehensive Model Testing",
+          "severityRationale": "SR 11-7-016 emphasizes comprehensive testing. The lack of sensitivity and stress testing represents a gap in understanding model robustness and potential weaknesses under varied or adverse conditions, which is important for model risk management."
+        },
+        {
+          "uuid": "19a4dd92-cd85-4123-bdf5-db4e041d7e1b",
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "238b64c6-e436-4a95-8099-68d7fdba0307",
+              "a8405206-533e-46d9-8b80-661b944c9c6b"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "self.xgb_params = {\n    'eval_metric': 'auc',\n    ...\n}\n...\nprint(f'\\n--- Cross-validation ROC AUC: {cv_score:.4f} ---')"
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Model Validation",
+          "flagTitle": "Limited Scope of Performance Metrics and Lack of Benchmarking",
+          "explanation": "The model's performance is primarily assessed using ROC AUC. For comprehensive testing, particularly in an imbalanced domain like fraud detection, a broader suite of metrics (e.g., Precision-Recall AUC, F1-score, calibration plots, lift charts) is necessary. Furthermore, the model is not benchmarked against simpler alternatives or industry standards to justify its complexity and performance, which is an aspect of comprehensive model assessment under SR 11-7.",
+          "remediation": [
+            {
+              "name": "Broaden Performance Metrics",
+              "details": "Calculate and report metrics such as Precision-Recall AUC (PR AUC), F1-score, precision at different recall levels, and generate calibration plots. These provide a more holistic view of model performance beyond ROC AUC.",
+              "description": "Expand model evaluation to include additional metrics relevant to imbalanced classification and business objectives."
+            },
+            {
+              "name": "Perform Model Benchmarking",
+              "details": "Train a simpler model (e.g., Logistic Regression with basic feature set) or another standard algorithm on the same data and compare its performance using the chosen metrics. This helps justify the choice and complexity of the XGBoost model.",
+              "description": "Implement and evaluate at least one baseline or alternative model to benchmark the performance of the XGBoost model."
+            }
+          ],
+          "violatedControl": "SR 11-7-016 - Conducting Comprehensive Model Testing",
+          "severityRationale": "Relying on a single primary metric can obscure certain performance weaknesses. Lack of benchmarking makes it difficult to ascertain if the chosen complex model provides significant uplift over simpler alternatives, a consideration for SR 11-7's emphasis on understanding model limitations and appropriateness."
+        },
+        {
+          "uuid": "cd62c93d-1348-4c65-a4ba-5d7ec3ad9b37",
+          "location": {
+            "scope": "NOTEBOOK_LEVEL",
+            "cellIDs": null,
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "codeSnippetContext": "## Conclusion\nThis notebook successfully implemented a comprehensive pipeline... Key steps included:\n...Robust Model Training: Utilized XGBoost with `GroupKFold` cross-validation...achieving a cross-validation ROC AUC score of **0.9429**.\n...The achieved AUC score indicates a good predictive performance."
+          },
+          "severity": "MEDIUM",
+          "flagLabel": "Model Validation Documentation",
+          "flagTitle": "Insufficient Formal Documentation of Testing Plan and Detailed Results Analysis",
+          "explanation": "The notebook demonstrates the execution of cross-validation and reports a final AUC score. However, it lacks a formal, detailed documentation of the overall model testing plan, the rationale for specific tests conducted (or omitted), a thorough analysis of all test results (including distributions, stability across folds beyond a single average score), and identified model limitations. SR 11-7-016 emphasizes the importance of robust documentation for model validation to ensure transparency and auditability.",
+          "remediation": [
+            {
+              "name": "Document Testing Strategy",
+              "details": "Document the overall testing approach, objectives of each test type (CV, sensitivity, stress, benchmarking), rationale for chosen methodologies, and criteria for evaluating test outcomes.",
+              "description": "Create dedicated markdown sections or a linked document detailing the model testing strategy and plan."
+            },
+            {
+              "name": "Enhance Test Results Analysis",
+              "details": "Beyond summary scores, include analysis of performance stability across CV folds, detailed discussion of feature importance findings, results from sensitivity/stress tests, and benchmark comparisons. Discuss how these results support model soundness.",
+              "description": "Provide a more detailed analysis and interpretation of all test results conducted."
+            },
+            {
+              "name": "Document Model Limitations",
+              "details": "Based on the comprehensive testing, list any scenarios where the model might underperform, critical assumptions it relies on, and areas for future improvement or monitoring. This is crucial for ongoing model risk management.",
+              "description": "Explicitly document known model limitations, assumptions made during testing, and any identified weaknesses."
+            }
+          ],
+          "violatedControl": "SR 11-7-016 - Conducting Comprehensive Model Testing",
+          "severityRationale": "Comprehensive documentation of model testing is a cornerstone of SR 11-7. The absence of a detailed testing plan, in-depth results analysis, and limitations discussion hinders auditability, reproducibility, and effective model risk oversight."
+        }
+      ],
+      "evidence": [
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "238b64c6-e436-4a95-8099-68d7fdba0307",
+              "a8405206-533e-46d9-8b80-661b944c9c6b"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "skf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):\n    X_fold_train, y_fold_train = self.X_train[self.features].iloc[train_idx], self.y_train.iloc[train_idx]\n    X_fold_val, y_fold_val = self.X_train[self.features].iloc[val_idx], self.y_train.iloc[val_idx]"
+          },
+          "explanation": "The `train_model` method within the `FraudDetectionPipeline` class (defined in cell `238b64c6-e436-4a95-8099-68d7fdba0307` and executed in `a8405206-533e-46d9-8b80-661b944c9c6b`) explicitly uses `sklearn.model_selection.GroupKFold`. This technique splits the training data into multiple folds based on 'DT_M' (month), ensuring temporal characteristics are respected. Model performance (ROC AUC) is evaluated on each fold. This cross-validation approach is a key component of comprehensive model testing as per SR 11-7-016, as it helps in understanding model stability and generalization beyond a single train-test split, even if other specific tests like sensitivity or stress testing are flagged as absent.",
+          "evidenceTitle": "Use of GroupKFold Cross-Validation for Model Evaluation",
+          "evidenceStatement": "The notebook employs GroupKFold cross-validation during model training to assess performance and stability across different data subsets, contributing to comprehensive model testing.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "238b64c6-e436-4a95-8099-68d7fdba0307",
+              "a8405206-533e-46d9-8b80-661b944c9c6b"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "self.xgb_params = {'eval_metric': 'auc', ...}\nprint(f\"Fold {fold_num} Val AUC: {roc_auc_score(y_fold_val, val_preds):.4f}\")\nprint(f'\\n--- Cross-validation ROC AUC: {cv_score:.4f} ---')"
+          },
+          "explanation": "The XGBoost model parameters specify 'auc' as the evaluation metric (cell `238b64c6-e436-4a95-8099-68d7fdba0307`). The `train_model` method calculates and reports ROC AUC scores for each validation fold and an overall cross-validation ROC AUC score. This demonstrates that model performance is quantitatively assessed, a fundamental requirement of SR 11-7-016. While a flag notes the limited scope of metrics, the use of ROC AUC itself constitutes a form of performance testing.",
+          "evidenceTitle": "Model Performance Evaluated using ROC AUC",
+          "evidenceStatement": "The model's predictive performance is evaluated using the ROC AUC metric during cross-validation and on validation sets, which is a standard practice in model testing.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": [
+              "238b64c6-e436-4a95-8099-68d7fdba0307",
+              "f53cfe7e-1cef-4a1a-b753-f061348460b4",
+              "526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+            ],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "pipeline.plot_feature_importance(top_n=50)  # From f53cfe7e-1cef-4a1a-b753-f061348460b4\n\n# From 238b64c6-e436-4a95-8099-68d7fdba0307:\nfold_imp_df = pd.DataFrame({'feature': self.features, 'importance': fold_model.feature_importances_, 'fold': fold_num})\nself.mean_feature_importances_ = self.feature_importances_.groupby('feature')['importance'].mean()"
+          },
+          "explanation": "The `train_model` method (cell `238b64c6-e436-4a95-8099-68d7fdba0307`) extracts feature importances from the XGBoost model for each fold and calculates mean importances. This is then visualized in cell `f53cfe7e-1cef-4a1a-b753-f061348460b4` and printed in `526f66f6-ee9f-44f1-b703-d3cbc41d4d85`. Analyzing feature importances is a technique for testing model behavior and understanding its drivers, contributing to the comprehensive testing requirements of SR 11-7-016 by providing insights into the model's decision-making process.",
+          "evidenceTitle": "Feature Importance Analysis for Model Understanding",
+          "evidenceStatement": "The pipeline includes steps to calculate, aggregate across folds, and plot feature importances, aiding in model interpretability and understanding, which is part of comprehensive model assessment.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "class FraudDetectionPipeline:\n    def __init__(self, use_gpu=True):\n        ...\n    def load_data(...):\n        ...\n    def prepare_features(self):\n        ...\n    def train_model(...):\n        ...\n    def save_predictions(...):"
+          },
+          "explanation": "Cell `238b64c6-e436-4a95-8099-68d7fdba0307` defines the `FraudDetectionPipeline` class, which modularizes the entire workflow from data loading through prediction. This structure facilitates systematic execution and testing of each stage (data preparation, feature engineering, model training with cross-validation). Such organization is conducive to comprehensive model testing as outlined in SR 11-7-016 by ensuring that the model development process is repeatable and auditable, allowing for consistent testing approaches.",
+          "evidenceTitle": "Implementation of a Structured Model Pipeline",
+          "evidenceStatement": "The notebook defines and utilizes a `FraudDetectionPipeline` class, encapsulating data loading, feature engineering, model training, and prediction. This structured approach promotes reproducibility and systematic testing of the model and its components.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "early_stop_callback = EarlyStopping(\n    rounds=early_stopping_rounds_config,\n    metric_name='auc', # Monitor AUC on eval set\n    save_best=True     # Model returned will be the best one\n)\ncurrent_params['callbacks'] = [early_stop_callback]\nfold_model = xgb.XGBClassifier(**current_params)\nfold_model.fit(...)"
+          },
+          "explanation": "The `train_model` method in cell `238b64c6-e436-4a95-8099-68d7fdba0307` configures and uses `xgboost.callback.EarlyStopping`. The training process monitors the 'auc' metric on a validation set and stops if performance does not improve for a specified number of rounds, returning the best model. This practice is a component of comprehensive model testing under SR 11-7-016 as it actively tests the model's generalization performance during training to mitigate overfitting and improve robustness.",
+          "evidenceTitle": "Early Stopping Mechanism in Model Training",
+          "evidenceStatement": "The XGBoost model training incorporates an early stopping mechanism based on validation set performance (AUC), which helps prevent overfitting and selects an optimal number of boosting rounds. This is a form of model testing and tuning for better generalization.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["352478a3-6f00-4c86-b2f5-9d3b56f48086"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "import xgboost\nprint(xgboost.__version__)\n# Output: 2.1.4"
+          },
+          "explanation": "Cell `352478a3-6f00-4c86-b2f5-9d3b56f48086` prints the version of the XGBoost library. Knowing the specific version of critical libraries like the modeling package (XGBoost) is important for ensuring that model testing results can be reproduced, a key consideration for robust model validation under SR 11-7-016. While a full requirements.txt is ideal, explicitly stating the version of the core modeling library is a positive step.",
+          "evidenceTitle": "XGBoost Version Displayed for Reproducibility",
+          "evidenceStatement": "The notebook explicitly prints the version of the XGBoost library used (2.1.4). This practice supports reproducibility of model training and testing, which is an aspect of comprehensive model validation.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["d3522972-7fb9-46e4-a299-33866c7fd618"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "# Predicting Online Transaction Fraud with XGBoost\n\n## A Comprehensive Pipeline for the IEEE-CIS Dataset\n\n### Introduction\n\nDetecting fraudulent online transactions is a critical challenge... This document outlines a machine learning pipeline utilizing XGBoost...\nThe approach focuses on robust feature engineering... The model is trained using GroupKFold cross-validation..."
+          },
+          "explanation": "The markdown cell `d3522972-7fb9-46e4-a299-33866c7fd618` provides an introduction to the project, describing the model's purpose, data source, and high-level methodology including the use of GroupKFold cross-validation. This foundational documentation is an element of model validation under SR 11-7-016, as it contextualizes the testing activities and contributes to transparency. While a flag notes insufficient formal documentation of a detailed testing plan, this introduction is a positive piece of context for understanding the testing performed.",
+          "evidenceTitle": "Introductory Documentation of Model Purpose and Methodology",
+          "evidenceStatement": "The notebook includes a markdown cell outlining the project's goal, dataset, primary model (XGBoost), and key methodological steps including feature engineering and cross-validation. This documentation aids in understanding the context for model testing.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        },
+        {
+          "location": {
+            "scope": "CELL_LEVEL",
+            "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+            "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+            "contentSnippetContext": "## Conclusion\n\nThis notebook successfully implemented a comprehensive pipeline... Key steps included:\n...Robust Model Training: Utilized XGBoost with `GroupKFold` cross-validation...achieving a cross-validation ROC AUC score of **0.9429**.\n...The achieved AUC score indicates a good predictive performance."
+          },
+          "explanation": "Cell `d6aeeded-ce72-49d4-9611-e5060f384462` provides a conclusion summarizing the project, reiterating the use of GroupKFold cross-validation, and stating the final ROC AUC score. Documenting the results of model testing is important for SR 11-7-016. This conclusion serves as a record of the performance achieved through the testing methods employed. While a flag highlights the need for more detailed results analysis, this summary is a positive element of documentation for the testing conducted.",
+          "evidenceTitle": "Conclusion Section Summarizing Model Performance and Key Steps",
+          "evidenceStatement": "The notebook contains a 'Conclusion' markdown cell that summarizes the implemented pipeline, key steps including feature engineering and model training with GroupKFold, and reports the achieved cross-validation ROC AUC score (0.9429). This summary documents the outcome of model testing.",
+          "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+        }
+      ],
+      "metadata": {
+        "controlId": "SR 11-7-016",
+        "controlType": "Operational",
+        "analysisType": "NOTEBOOK",
+        "controlTitle": "Conducting Comprehensive Model Testing"
+      }
+    },
+    "complianceEvidence": [
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "238b64c6-e436-4a95-8099-68d7fdba0307",
+            "a8405206-533e-46d9-8b80-661b944c9c6b"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "skf = GroupKFold(n_splits=n_splits)\nfor i, (train_idx, val_idx) in enumerate(skf.split(self.X_train[self.features], self.y_train, groups=groups)):\n    X_fold_train, y_fold_train = self.X_train[self.features].iloc[train_idx], self.y_train.iloc[train_idx]\n    X_fold_val, y_fold_val = self.X_train[self.features].iloc[val_idx], self.y_train.iloc[val_idx]"
+        },
+        "explanation": "The `train_model` method within the `FraudDetectionPipeline` class (defined in cell `238b64c6-e436-4a95-8099-68d7fdba0307` and executed in `a8405206-533e-46d9-8b80-661b944c9c6b`) explicitly uses `sklearn.model_selection.GroupKFold`. This technique splits the training data into multiple folds based on 'DT_M' (month), ensuring temporal characteristics are respected. Model performance (ROC AUC) is evaluated on each fold. This cross-validation approach is a key component of comprehensive model testing as per SR 11-7-016, as it helps in understanding model stability and generalization beyond a single train-test split, even if other specific tests like sensitivity or stress testing are flagged as absent.",
+        "evidenceTitle": "Use of GroupKFold Cross-Validation for Model Evaluation",
+        "evidenceStatement": "The notebook employs GroupKFold cross-validation during model training to assess performance and stability across different data subsets, contributing to comprehensive model testing.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "238b64c6-e436-4a95-8099-68d7fdba0307",
+            "a8405206-533e-46d9-8b80-661b944c9c6b"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "self.xgb_params = {'eval_metric': 'auc', ...}\nprint(f\"Fold {fold_num} Val AUC: {roc_auc_score(y_fold_val, val_preds):.4f}\")\nprint(f'\\n--- Cross-validation ROC AUC: {cv_score:.4f} ---')"
+        },
+        "explanation": "The XGBoost model parameters specify 'auc' as the evaluation metric (cell `238b64c6-e436-4a95-8099-68d7fdba0307`). The `train_model` method calculates and reports ROC AUC scores for each validation fold and an overall cross-validation ROC AUC score. This demonstrates that model performance is quantitatively assessed, a fundamental requirement of SR 11-7-016. While a flag notes the limited scope of metrics, the use of ROC AUC itself constitutes a form of performance testing.",
+        "evidenceTitle": "Model Performance Evaluated using ROC AUC",
+        "evidenceStatement": "The model's predictive performance is evaluated using the ROC AUC metric during cross-validation and on validation sets, which is a standard practice in model testing.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": [
+            "238b64c6-e436-4a95-8099-68d7fdba0307",
+            "f53cfe7e-1cef-4a1a-b753-f061348460b4",
+            "526f66f6-ee9f-44f1-b703-d3cbc41d4d85"
+          ],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "pipeline.plot_feature_importance(top_n=50)  # From f53cfe7e-1cef-4a1a-b753-f061348460b4\n\n# From 238b64c6-e436-4a95-8099-68d7fdba0307:\nfold_imp_df = pd.DataFrame({'feature': self.features, 'importance': fold_model.feature_importances_, 'fold': fold_num})\nself.mean_feature_importances_ = self.feature_importances_.groupby('feature')['importance'].mean()"
+        },
+        "explanation": "The `train_model` method (cell `238b64c6-e436-4a95-8099-68d7fdba0307`) extracts feature importances from the XGBoost model for each fold and calculates mean importances. This is then visualized in cell `f53cfe7e-1cef-4a1a-b753-f061348460b4` and printed in `526f66f6-ee9f-44f1-b703-d3cbc41d4d85`. Analyzing feature importances is a technique for testing model behavior and understanding its drivers, contributing to the comprehensive testing requirements of SR 11-7-016 by providing insights into the model's decision-making process.",
+        "evidenceTitle": "Feature Importance Analysis for Model Understanding",
+        "evidenceStatement": "The pipeline includes steps to calculate, aggregate across folds, and plot feature importances, aiding in model interpretability and understanding, which is part of comprehensive model assessment.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "class FraudDetectionPipeline:\n    def __init__(self, use_gpu=True):\n        ...\n    def load_data(...):\n        ...\n    def prepare_features(self):\n        ...\n    def train_model(...):\n        ...\n    def save_predictions(...):"
+        },
+        "explanation": "Cell `238b64c6-e436-4a95-8099-68d7fdba0307` defines the `FraudDetectionPipeline` class, which modularizes the entire workflow from data loading through prediction. This structure facilitates systematic execution and testing of each stage (data preparation, feature engineering, model training with cross-validation). Such organization is conducive to comprehensive model testing as outlined in SR 11-7-016 by ensuring that the model development process is repeatable and auditable, allowing for consistent testing approaches.",
+        "evidenceTitle": "Implementation of a Structured Model Pipeline",
+        "evidenceStatement": "The notebook defines and utilizes a `FraudDetectionPipeline` class, encapsulating data loading, feature engineering, model training, and prediction. This structured approach promotes reproducibility and systematic testing of the model and its components.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["238b64c6-e436-4a95-8099-68d7fdba0307"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "early_stop_callback = EarlyStopping(\n    rounds=early_stopping_rounds_config,\n    metric_name='auc', # Monitor AUC on eval set\n    save_best=True     # Model returned will be the best one\n)\ncurrent_params['callbacks'] = [early_stop_callback]\nfold_model = xgb.XGBClassifier(**current_params)\nfold_model.fit(...)"
+        },
+        "explanation": "The `train_model` method in cell `238b64c6-e436-4a95-8099-68d7fdba0307` configures and uses `xgboost.callback.EarlyStopping`. The training process monitors the 'auc' metric on a validation set and stops if performance does not improve for a specified number of rounds, returning the best model. This practice is a component of comprehensive model testing under SR 11-7-016 as it actively tests the model's generalization performance during training to mitigate overfitting and improve robustness.",
+        "evidenceTitle": "Early Stopping Mechanism in Model Training",
+        "evidenceStatement": "The XGBoost model training incorporates an early stopping mechanism based on validation set performance (AUC), which helps prevent overfitting and selects an optimal number of boosting rounds. This is a form of model testing and tuning for better generalization.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["352478a3-6f00-4c86-b2f5-9d3b56f48086"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "import xgboost\nprint(xgboost.__version__)\n# Output: 2.1.4"
+        },
+        "explanation": "Cell `352478a3-6f00-4c86-b2f5-9d3b56f48086` prints the version of the XGBoost library. Knowing the specific version of critical libraries like the modeling package (XGBoost) is important for ensuring that model testing results can be reproduced, a key consideration for robust model validation under SR 11-7-016. While a full requirements.txt is ideal, explicitly stating the version of the core modeling library is a positive step.",
+        "evidenceTitle": "XGBoost Version Displayed for Reproducibility",
+        "evidenceStatement": "The notebook explicitly prints the version of the XGBoost library used (2.1.4). This practice supports reproducibility of model training and testing, which is an aspect of comprehensive model validation.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["d3522972-7fb9-46e4-a299-33866c7fd618"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "# Predicting Online Transaction Fraud with XGBoost\n\n## A Comprehensive Pipeline for the IEEE-CIS Dataset\n\n### Introduction\n\nDetecting fraudulent online transactions is a critical challenge... This document outlines a machine learning pipeline utilizing XGBoost...\nThe approach focuses on robust feature engineering... The model is trained using GroupKFold cross-validation..."
+        },
+        "explanation": "The markdown cell `d3522972-7fb9-46e4-a299-33866c7fd618` provides an introduction to the project, describing the model's purpose, data source, and high-level methodology including the use of GroupKFold cross-validation. This foundational documentation is an element of model validation under SR 11-7-016, as it contextualizes the testing activities and contributes to transparency. While a flag notes insufficient formal documentation of a detailed testing plan, this introduction is a positive piece of context for understanding the testing performed.",
+        "evidenceTitle": "Introductory Documentation of Model Purpose and Methodology",
+        "evidenceStatement": "The notebook includes a markdown cell outlining the project's goal, dataset, primary model (XGBoost), and key methodological steps including feature engineering and cross-validation. This documentation aids in understanding the context for model testing.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      },
+      {
+        "location": {
+          "scope": "CELL_LEVEL",
+          "cellIDs": ["d6aeeded-ce72-49d4-9611-e5060f384462"],
+          "notebookPath": "ieee_fraud_detection_xgb_ran.ipynb",
+          "contentSnippetContext": "## Conclusion\n\nThis notebook successfully implemented a comprehensive pipeline... Key steps included:\n...Robust Model Training: Utilized XGBoost with `GroupKFold` cross-validation...achieving a cross-validation ROC AUC score of **0.9429**.\n...The achieved AUC score indicates a good predictive performance."
+        },
+        "explanation": "Cell `d6aeeded-ce72-49d4-9611-e5060f384462` provides a conclusion summarizing the project, reiterating the use of GroupKFold cross-validation, and stating the final ROC AUC score. Documenting the results of model testing is important for SR 11-7-016. This conclusion serves as a record of the performance achieved through the testing methods employed. While a flag highlights the need for more detailed results analysis, this summary is a positive element of documentation for the testing conducted.",
+        "evidenceTitle": "Conclusion Section Summarizing Model Performance and Key Steps",
+        "evidenceStatement": "The notebook contains a 'Conclusion' markdown cell that summarizes the implemented pipeline, key steps including feature engineering and model training with GroupKFold, and reports the achieved cross-validation ROC AUC score (0.9429). This summary documents the outcome of model testing.",
+        "supportedControlID": "SR 11-7-016 - Conducting Comprehensive Model Testing"
+      }
+    ],
+    "analysisType": "NOTEBOOK",
+    "errorMessage": null
+  }
+]
